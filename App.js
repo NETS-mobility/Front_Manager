@@ -5,10 +5,14 @@ import MapView from './src/MapView';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import EditNotice from './src/screens/service/editNotice';
 import RequireDocument from './src/screens/service/requiredDocument';
-
+import RestBlock from './src/components/home/restBlock';
+import ServiceSearch from './src/components/service/detail/serviceSearch';
+import {ServiceHistory} from './src/screens/service';
+import BottomTab from './src/components/common/bottomTab';
 const App = () => {
   return (
     <View style={styles.block}>
+      <BottomTab />
       {/* <StatusBar barStyle="dark-content" />
       <MapView
         appKey="l7xx9d4d587fe7104a57b8feda886c846d1f"
@@ -17,7 +21,10 @@ const App = () => {
         lng={27.602706}
       /> */}
       {/* <EditNotice /> */}
-      <RequireDocument />
+      {/* <RequireDocument /> */}
+      {/* <RestBlock /> */}
+      {/* <ServiceHistory /> */}
+      {/* <ServiceSearch /> */}
     </View>
   );
 };
