@@ -41,7 +41,8 @@ public class RNTMapViewManager extends SimpleViewManager<RNTMapView> {
     @Override
     protected RNTMapView createViewInstance(@NonNull ThemedReactContext reactContext) {
         _mapView = new TMapView(reactContext);
-        _mapView.setCenterPoint(126.988205, 37.551135);
+        _mapView.setCenterPoint(127.15340192653336, 37.62987543168655);
+        _mapView.setLocationPoint(127.15340192653336, 37.62987543168655);
         _mapView.setSKTMapApiKey(APIKEY);
         return new RNTMapView(reactContext, _mapView);
     }
