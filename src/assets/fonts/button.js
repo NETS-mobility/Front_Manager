@@ -139,6 +139,13 @@ export const btnStyles = StyleSheet.create({
     borderWidth: 0,
     borderRadius: 30,
   },
+  btnPrimary: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fb7348',
+    borderWidth: 0,
+    borderRadius: 30,
+  },
 });
 
 export default CustomBtn;

@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import CommonLayout from '../../components/common/layout';
+import CommonLayout from '../../../components/common/layout';
 import {StyleSheet, View, Text, TextInput} from 'react-native';
-import typoStyles from '../../assets/fonts/typography';
-import CustomBtn from '../../assets/fonts/button';
-import {btnStyles} from '../../assets/fonts/button';
-import ImageSubmit from '../../components/common/imageSubmit';
+import typoStyles from '../../../assets/fonts/typography';
+import CustomBtn from '../../../assets/fonts/button';
+import { btnStyles } from '../../../assets/fonts/button';
+import ImageSubmit from '../../../components/common/imageSubmit';
 
 const EditNotice = () => {
   const [img, setImg] = useState('');

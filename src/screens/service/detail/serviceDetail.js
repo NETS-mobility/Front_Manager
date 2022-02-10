@@ -5,15 +5,18 @@ import CommonLayout from '../../../components/common/layout';
 import {ServiceStatus} from '../../../components/service/detail/serviceHistoryComponent';
 import {
   ManagerComment,
-  ManagerProfile,
+  CustomerProfile
 } from '../../../components/service/reservation/serviceInfo';
 import {ServiceInfo} from '../../../components/service/reservation/serviceInfo';
 import ServiceBlock from '../../../components/service/serviceBlock';
 import {Payment} from '../../../components/service/payment/payment';
 import {ServiceDetailProgress} from '../../../components/service/detail/serviceDetail';
 import MapView from '../../../MapView';
+import { btnStyles } from '../../../assets/fonts/button';
+// import { RequiredDocument } from '..';
+import CustomBtn from '../../../assets/fonts/button';
 
-const ServiceDetail = () => {
+const ServiceDetail = ({navigation}) => {
   const styles = StyleSheet.create({
     block1: {
       width: '100%',
@@ -33,6 +36,10 @@ const ServiceDetail = () => {
       height: 244,
       alignSelf: 'center',
     },
+    documentBtn:{
+      width:'100%',
+      height:30
+    }
   });
 
   return (
@@ -58,21 +65,33 @@ const ServiceDetail = () => {
             lng={126.98502302169841}
           />
         </View>
-        <ManagerProfile
+
+        <ServiceBlock>
+        <Text
+        style={[
+          typoStyles.fs14,
+          typoStyles.fw700,
+          typoStyles.textExplainBold,
+          styles.title,
+        ]}>
+        필수 서류가 제출되지 않았습니다.</Text>
+          <CustomBtn 
+            viewStyle={[btnStyles.btnPrimary,styles.documentBtn]}
+            textStyle={[typoStyles.fs14,typoStyles.fw700,typoStyles.textWhite]}
+            text={"필수 서류 제출"}
+            onPress={()=>navigation.push("RequiredDocument")}
+          />
+        </ServiceBlock>
+
+        <CustomerProfile
           name={'홍길동'}
-          certificate={['간호조무사', '요양보호사']}
-          comment={
-            '모든 일에 적극적이며 긍정적이라는 평가를 받아왔습니다. 따뜻한 배려와 친절함으로 동행하겠습니다.'
-          }
+          addr={"성북구 길음동 11-30"}
           type={2}
         />
         <ServiceDetailProgress />
         <ManagerComment comment={'문 앞에 도착하면 연락드리겠습니다!'} />
         <ServiceBlock>
           <ServiceInfo />
-        </ServiceBlock>
-        <ServiceBlock>
-          <Payment />
         </ServiceBlock>
       </ScrollView>
     </CommonLayout>

@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
-import CommonLayout from '../../components/common/layout';
+import CommonLayout from '../../../components/common/layout';
 import {StyleSheet, View, Text} from 'react-native';
-import typoStyles from '../../assets/fonts/typography';
-import CustomBtn from '../../assets/fonts/button';
-import {btnStyles} from '../../assets/fonts/button';
-import ImageSubmit from '../../components/common/imageSubmit';
+import typoStyles from '../../../assets/fonts/typography';
+import CustomBtn from '../../../assets/fonts/button';
+import {btnStyles} from '../../../assets/fonts/button';
+import ImageSubmit from '../../../components/common/imageSubmit';
 
-const RequireDocument = () => {
+const RequiredDocument = () => {
   const [img, setImg] = useState('');
   const styles = StyleSheet.create({
     block1: {
@@ -76,4 +76,4 @@ const RequireDocument = () => {
   );
 };
 
-export default RequireDocument;
+export default RequiredDocument;

@@ -2,6 +2,7 @@ import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import typoStyles from '../../../assets/fonts/typography';
 import ServiceBlock from '../serviceBlock';
+import { CustomImagePicker } from '../../mypage/imagePicker';
 
 const DetailProgressCircle = ({time, text}) => {
   const styles = StyleSheet.create({
@@ -98,7 +99,7 @@ export const ServiceDetailProgress = () => {
         <DetailProgressCircle time={'11:48'} text={'픽업완료'} />
         <DetailProgressCircle time={'12:12'} text={'병원도착'} />
       </View>
-
+        
       <View style={styles.steps}>
         <View style={styles.line2} />
         <DetailProgressCircle time={'13:14'} text={'귀가차량\n병원도착'} />

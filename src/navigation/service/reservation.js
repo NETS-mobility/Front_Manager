@@ -20,4 +20,4 @@ const ReservationNavigator = () => {
   );
 };
 
-export {ReservationNavigator};
+export default ReservationNavigator;

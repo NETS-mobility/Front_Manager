@@ -3,23 +3,19 @@ import {Text} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {NavigationContainer} from '@react-navigation/native';
-import Reservation04 from '../../screens/service/reservation/reservation04';
-import {LoginMainScreen} from '../../screens/login';
-import ServiceDetailNavigator from '../../navigation/service/serviceDetail';
-import ChangePwNavigator from '../../navigation/mypage/changePW/changePW';
-import {ReservationNavigator} from '../../navigation/service/reservation';
+import ServiceDetailNavigator from '../service/serviceDetail';
+import ReservationNavigator from '../service/reservation';
+import MypageNavigator from '../mypage/mypageMain/mypageMain';
+import AlarmNavigator from '../alarm/alarm';
+import StartNavigator from '../start/start';
 
 const Tab = createBottomTabNavigator();
-
-const MyPageTab = () => {
-  return <Text>마이페이지</Text>;
-};
 
 const BottomTab = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        initialRouteName="Home"
+        initialRouteName="StartScreen"
         screenOptions={{
           tabBarActiveTintColor: '#19b7cd',
           tabBarStyle: {
@@ -53,7 +49,7 @@ const BottomTab = () => {
         />
         <Tab.Screen
           name="알림"
-          component={ChangePwNavigator}
+          component={AlarmNavigator}
           options={{
             headerShown: false,
             tabBarIcon: ({color}) => (
@@ -63,7 +59,7 @@ const BottomTab = () => {
         />
         <Tab.Screen
           name="마이페이지"
-          component={ChangePwNavigator}
+          component={MypageNavigator}
           options={{
             headerShown: false,
             tabBarIcon: ({color}) => (

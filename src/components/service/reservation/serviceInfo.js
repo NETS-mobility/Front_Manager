@@ -11,13 +11,12 @@ import {btnStyles} from '../../../assets/fonts/button';
 import typoStyles from '../../../assets/fonts/typography';
 import ServiceBlock from '../serviceBlock';
 
-export const ManagerProfile = ({name, img, certificate, comment, type}) => {
+export const CustomerProfile = ({name, addr, type}) => {
   const styles = StyleSheet.create({
     infoBlock: {
       width: '100%',
       flexDirection: 'row',
       alignItems: 'center',
-      marginBottom: 17,
     },
     profileImg: {
       width: 60,
@@ -48,17 +47,11 @@ export const ManagerProfile = ({name, img, certificate, comment, type}) => {
             {name}
           </Text>
           <Text
-            style={[typoStyles.fs12, typoStyles.fw700, typoStyles.textMain]}>
-            {certificate.map(data => {
-              return data + ' ';
-            })}
+            style={[typoStyles.fs14, typoStyles.fwRegular, typoStyles.textExplainBold]}>
+            {addr}
           </Text>
         </View>
       </View>
-      <Text
-        style={[typoStyles.fs14, typoStyles.fwRegular, typoStyles.textExplain]}>
-        {comment}
-      </Text>
       {type == 2 ? (
         <TouchableOpacity
           onPress={() => Linking.openURL(`tel:02-0000-0000`)}
@@ -132,9 +125,10 @@ export const ServiceInfo = ({num}) => {
       <ServiceInfoOneLine title={'희망 병원 도착 시간'} value={'12:00'} />
       <ServiceInfoOneLine title={'진료/검사 예약 시간'} value={'12:30'} />
       <ServiceInfoOneLine title={'귀가 출발 시간'} value={'14:00'} />
-      <ServiceInfoOneLine title={'네츠 매니저'} value={'홍길동'} />
-      <ServiceInfoOneLine title={'차량 번호'} value={'55거 1234'} />
+      <ServiceInfoOneLine title={'고객 이름'} value={'홍길동'} />
+      <ServiceInfoOneLine title={'고객 전화번호'} value={'010-0000-2222'} />
       <ServiceInfoOneLine title={'동행 매니저'} value={'김강빈'} />
+      <ServiceInfoOneLine title={'동행 매니저 전화번호'} value={'010-2221-5555'} />
     </View>
   );
 };
