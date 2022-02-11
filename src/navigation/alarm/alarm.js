@@ -1,7 +1,7 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import { AlarmScreen } from '../../screens/alarm';
-import { EditNotice } from '../../screens/service';
+import AlarmScreen from '../../screens/alarm/alarmScreen';
+import {EditNotice} from '../../screens/service';
 const Stack = createNativeStackNavigator();
 
 const AlarmNavigator = () => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, StatusBar, View} from 'react-native';
-import MapView from './src/MapView';
+import MapView from './src/components/service/detail/MapView';
 
 // import {Colors} from 'react-native/Libraries/NewAppScreen';
 // import EditNotice from './src/screens/service/editNotice';
@@ -8,12 +8,12 @@ import MapView from './src/MapView';
 // import RestBlock from './src/components/home/restBlock';
 // import ServiceSearch from './src/components/service/detail/serviceSearch';
 // import {ServiceHistory} from './src/screens/service';
-import BottomTab from "./src/navigation/common/bottomTab";
+import BottomTab from './src/navigation/common/bottomTab';
 
 const App = () => {
   return (
     <View style={styles.block}>
-      <BottomTab/>
+      <BottomTab />
       {/* {token?<></>:<BottomTab />} */}
       {/* <StatusBar barStyle="dark-content" />
       <MapView

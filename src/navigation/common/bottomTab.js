@@ -1,13 +1,11 @@
 import React from 'react';
-import {Text} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {NavigationContainer} from '@react-navigation/native';
 import ServiceDetailNavigator from '../service/serviceDetail';
-import ReservationNavigator from '../service/reservation';
 import MypageNavigator from '../mypage/mypageMain/mypageMain';
 import AlarmNavigator from '../alarm/alarm';
-import StartNavigator from '../start/start';
+import HomeNavigator from '../home/home';
 
 const Tab = createBottomTabNavigator();
 
@@ -15,7 +13,6 @@ const BottomTab = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        initialRouteName="StartScreen"
         screenOptions={{
           tabBarActiveTintColor: '#19b7cd',
           tabBarStyle: {
@@ -29,7 +26,7 @@ const BottomTab = () => {
         }}>
         <Tab.Screen
           name="홈"
-          component={ReservationNavigator}
+          component={HomeNavigator}
           options={{
             headerShown: false,
             tabBarIcon: ({color}) => (

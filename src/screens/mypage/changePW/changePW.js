@@ -1,15 +1,15 @@
 import React, {useState} from 'react';
 import {Text, StyleSheet} from 'react-native';
 import typoStyles from '../../../assets/fonts/typography';
-import {InputBox} from '../../../components/findAuth/findAuthComponent';
-import FindAuthLayout from '../../../components/findAuth/findAuthLayout';
+import {InputBox} from '../../../components/changePW/changePWComponent';
+import ChangePWLayout from '../../../components/changePW/changePWLayout';
 
 const ChangePW = ({navigation}) => {
   const [id, setID] = useState('');
   const [tel, setTel] = useState('');
   const [authNum, setAuthNum] = useState();
   return (
-    <FindAuthLayout
+    <ChangePWLayout
       pageType="pwChange"
       num={1}
       btnType="next"
@@ -42,7 +42,7 @@ const ChangePW = ({navigation}) => {
         value={authNum}
         setVal={setAuthNum}
       />
-    </FindAuthLayout>
+    </ChangePWLayout>
   );
 };
 

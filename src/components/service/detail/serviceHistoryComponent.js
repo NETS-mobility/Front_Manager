@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import {btnStyles} from '../../../assets/fonts/button';
+import {btnStyles} from '../../common/button';
 import typoStyles from '../../../assets/fonts/typography';
-import {ServiceInfo} from '../reservation/serviceInfo';
+import {ServiceInfo} from './serviceInfo';
 import ServiceBlock from '../serviceBlock';
 
 export const ServiceStatus = ({text}) => {

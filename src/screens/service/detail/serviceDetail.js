@@ -5,16 +5,14 @@ import CommonLayout from '../../../components/common/layout';
 import {ServiceStatus} from '../../../components/service/detail/serviceHistoryComponent';
 import {
   ManagerComment,
-  CustomerProfile
-} from '../../../components/service/reservation/serviceInfo';
-import {ServiceInfo} from '../../../components/service/reservation/serviceInfo';
+  CustomerProfile,
+} from '../../../components/service/detail/serviceInfo';
+import {ServiceInfo} from '../../../components/service/detail/serviceInfo';
 import ServiceBlock from '../../../components/service/serviceBlock';
-import {Payment} from '../../../components/service/payment/payment';
 import {ServiceDetailProgress} from '../../../components/service/detail/serviceDetail';
-import MapView from '../../../MapView';
-import { btnStyles } from '../../../assets/fonts/button';
-// import { RequiredDocument } from '..';
-import CustomBtn from '../../../assets/fonts/button';
+import MapView from '../../../components/service/detail/MapView';
+import {btnStyles} from '../../../components/common/button';
+import CustomBtn from '../../../components/common/button';
 
 const ServiceDetail = ({navigation}) => {
   const styles = StyleSheet.create({
@@ -36,10 +34,10 @@ const ServiceDetail = ({navigation}) => {
       height: 244,
       alignSelf: 'center',
     },
-    documentBtn:{
-      width:'100%',
-      height:30
-    }
+    documentBtn: {
+      width: '100%',
+      height: 30,
+    },
   });
 
   return (
@@ -67,25 +65,30 @@ const ServiceDetail = ({navigation}) => {
         </View>
 
         <ServiceBlock>
-        <Text
-        style={[
-          typoStyles.fs14,
-          typoStyles.fw700,
-          typoStyles.textExplainBold,
-          styles.title,
-        ]}>
-        필수 서류가 제출되지 않았습니다.</Text>
-          <CustomBtn 
-            viewStyle={[btnStyles.btnPrimary,styles.documentBtn]}
-            textStyle={[typoStyles.fs14,typoStyles.fw700,typoStyles.textWhite]}
-            text={"필수 서류 제출"}
-            onPress={()=>navigation.push("RequiredDocument")}
+          <Text
+            style={[
+              typoStyles.fs14,
+              typoStyles.fw700,
+              typoStyles.textExplainBold,
+              styles.title,
+            ]}>
+            필수 서류가 제출되지 않았습니다.
+          </Text>
+          <CustomBtn
+            viewStyle={[btnStyles.btnPrimary, styles.documentBtn]}
+            textStyle={[
+              typoStyles.fs14,
+              typoStyles.fw700,
+              typoStyles.textWhite,
+            ]}
+            text={'필수 서류 제출'}
+            onPress={() => navigation.push('RequiredDocument')}
           />
         </ServiceBlock>
 
         <CustomerProfile
           name={'홍길동'}
-          addr={"성북구 길음동 11-30"}
+          addr={'성북구 길음동 11-30'}
           type={2}
         />
         <ServiceDetailProgress />

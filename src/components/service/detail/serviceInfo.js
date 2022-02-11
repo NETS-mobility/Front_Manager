@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Linking,
 } from 'react-native';
-import {btnStyles} from '../../../assets/fonts/button';
+import {btnStyles} from '../../common/button';
 import typoStyles from '../../../assets/fonts/typography';
 import ServiceBlock from '../serviceBlock';
 
@@ -34,7 +34,7 @@ export const CustomerProfile = ({name, addr, type}) => {
     <ServiceBlock>
       <View style={styles.infoBlock}>
         <Image
-          source={require('../../../assets/image/startimg2.png')}
+          source={require('../../../assets/image/startimg.png')}
           style={styles.profileImg}
         />
         <View>
@@ -47,7 +47,11 @@ export const CustomerProfile = ({name, addr, type}) => {
             {name}
           </Text>
           <Text
-            style={[typoStyles.fs14, typoStyles.fwRegular, typoStyles.textExplainBold]}>
+            style={[
+              typoStyles.fs14,
+              typoStyles.fwRegular,
+              typoStyles.textExplainBold,
+            ]}>
             {addr}
           </Text>
         </View>
@@ -128,7 +132,10 @@ export const ServiceInfo = ({num}) => {
       <ServiceInfoOneLine title={'고객 이름'} value={'홍길동'} />
       <ServiceInfoOneLine title={'고객 전화번호'} value={'010-0000-2222'} />
       <ServiceInfoOneLine title={'동행 매니저'} value={'김강빈'} />
-      <ServiceInfoOneLine title={'동행 매니저 전화번호'} value={'010-2221-5555'} />
+      <ServiceInfoOneLine
+        title={'동행 매니저 전화번호'}
+        value={'010-2221-5555'}
+      />
     </View>
   );
 };

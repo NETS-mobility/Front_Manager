@@ -1,6 +1,6 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import { MypageMain, ChangeInfo } from '../../../screens/mypage/mypageMain';
+import {MypageMain, ChangeInfo} from '../../../screens/mypage';
 
 const Stack = createNativeStackNavigator();
 const MypageNavigator = () => {

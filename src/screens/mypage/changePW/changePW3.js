@@ -1,11 +1,11 @@
 import React from 'react';
 import {Text, StyleSheet} from 'react-native';
 import typoStyles from '../../../assets/fonts/typography';
-import FindAuthLayout from '../../../components/findAuth/findAuthLayout';
+import ChangePWLayout from '../../../components/changePW/changePWLayout';
 
 const ChangePW3 = ({navigation}) => {
   return (
-    <FindAuthLayout
+    <ChangePWLayout
       pageType="pwChange"
       num={2}
       btnType="login"
@@ -23,7 +23,7 @@ const ChangePW3 = ({navigation}) => {
         style={[typoStyles.textExplainBold, typoStyles.fs15, typoStyles.fw700]}>
         변경된 비밀번호로 로그인 해주세요.
       </Text>
-    </FindAuthLayout>
+    </ChangePWLayout>
   );
 };
 

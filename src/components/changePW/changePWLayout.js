@@ -7,12 +7,12 @@ import {
   ScrollView,
 } from 'react-native';
 import Close from '../../assets/icon/close.svg';
-import CustomBtn, {btnStyles} from '../../assets/fonts/button';
+import CustomBtn, {btnStyles} from '../common/button';
 import typoStyles from '../../assets/fonts/typography';
-import {ProgressBar} from './findAuthComponent';
+import {ProgressBar} from './changePWComponent';
 import WholeLayout from '../wholeLayout';
 
-const FindAuthLayout = ({pageType, num, btnType, children, goNext, goBack}) => {
+const ChangePWLayout = ({pageType, num, btnType, children, goNext, goBack}) => {
   return (
     <WholeLayout check={1}>
       <View style={styles.block}>
@@ -89,4 +89,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FindAuthLayout;
+export default ChangePWLayout;

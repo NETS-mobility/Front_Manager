@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {btnStyles} from '../../assets/fonts/button';
+import {btnStyles} from '../common/button';
 import typoStyles from '../../assets/fonts/typography';
 
 const RestBlock = () => {

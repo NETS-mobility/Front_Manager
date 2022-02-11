@@ -1,18 +1,10 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  Image,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
-import {btnStyles, shadowStyles} from '../../assets/fonts/button';
+import {View, StyleSheet, Image, Text, ScrollView} from 'react-native';
 import typoStyles from '../../assets/fonts/typography';
 import CommonLayout from '../../components/common/layout';
 import RestBlock from '../../components/home/restBlock';
 
-const Home = ({navigation}) => {
+const Home = () => {
   const styles = StyleSheet.create({
     img: {
       position: 'relative',
@@ -54,7 +46,7 @@ const Home = ({navigation}) => {
   return (
     <CommonLayout>
       <Image
-        source={require('../../assets/image/startimg2.png')}
+        source={require('../../assets/image/startimg.png')}
         style={styles.img}
       />
       <View style={styles.imgBox}></View>

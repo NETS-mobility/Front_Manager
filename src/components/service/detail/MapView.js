@@ -1,13 +1,6 @@
 import PropTypes from 'prop-types';
 import React, {Fragment, useCallback, useEffect} from 'react';
-import {
-  NativeModules,
-  Platform,
-  requireNativeComponent,
-  StyleSheet,
-  View,
-} from 'react-native';
-import ZoomButton from './ui/zoomButton';
+import {NativeModules, Platform, requireNativeComponent} from 'react-native';
 
 const {RNTMap: TMap} = NativeModules;
 
@@ -35,21 +28,9 @@ function MapView(props) {
     IS_IOS && TMap.setApiKey(key);
   }, []);
 
-  const zoomIn = useCallback(() => {
-    IS_IOS && TMap.zoomIn();
-  }, []);
-
-  const zoomOut = useCallback(() => {
-    IS_IOS && TMap.zoomOut();
-  }, []);
-
   return (
     <Fragment>
       <RNTMap {...props} />
-      <View style={styles.zoomWrapper}>
-        <ZoomButton label="+" onZoom={zoomIn} />
-        <ZoomButton label="-" onZoom={zoomOut} />
-      </View>
     </Fragment>
   );
 }
@@ -59,17 +40,6 @@ MapView.propTypes = {
   lat: PropTypes.number.isRequired,
   lng: PropTypes.number.isRequired,
 };
-
-const styles = StyleSheet.create({
-  zoomWrapper: {
-    position: 'absolute',
-    bottom: 20,
-    right: 20,
-    width: 50,
-    height: 90,
-    justifyContent: 'space-evenly',
-  },
-});
 
 const RNTMap = requireNativeComponent('RNTMap', MapView);
 
