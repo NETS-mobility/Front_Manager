@@ -35,14 +35,14 @@ const ServiceSearch = () => {
 const styles = StyleSheet.create({
   selectBox: {
     width: '100%',
-    height: 30,
+    height: 50,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
     paddingVertical: 4,
     backgroundColor: '#fff',
-    elevation: 13,
+    elevation: 4,
     marginTop: 20,
   },
   calendarBlock: {

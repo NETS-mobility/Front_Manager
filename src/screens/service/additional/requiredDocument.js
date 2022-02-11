@@ -6,7 +6,7 @@ import CustomBtn from '../../../components/common/button';
 import {btnStyles} from '../../../components/common/button';
 import ImageSubmit from '../../../components/common/imageSubmit';
 
-const RequiredDocument = () => {
+const RequiredDocument = ({navigation}) => {
   const [img, setImg] = useState('');
   const styles = StyleSheet.create({
     block1: {
@@ -23,13 +23,14 @@ const RequiredDocument = () => {
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      marginBottom: 255,
     },
     submitImgBtn: {width: 122, height: 30, alignSelf: 'center'},
     submitBtn: {width: 245, height: 47, alignSelf: 'center'},
     contents: {
       paddingHorizontal: 30,
       paddingBottom: 66,
+      height: '80%',
+      justifyContent: 'space-between',
     },
   });
 
@@ -47,30 +48,42 @@ const RequiredDocument = () => {
         </Text>
       </View>
       <View style={styles.contents}>
-        <Text
-          style={[
-            typoStyles.fs14,
-            typoStyles.fw900,
-            typoStyles.textExplain,
-            styles.text,
-          ]}>
+        <View>
           <Text
-            style={[typoStyles.fs14, typoStyles.fw900, typoStyles.textPrimary]}>
-            {'필수 서류 제출이 완료되지 않은 고객'}
+            style={[
+              typoStyles.fs14,
+              typoStyles.fw900,
+              typoStyles.textExplain,
+              styles.text,
+            ]}>
+            <Text
+              style={[
+                typoStyles.fs14,
+                typoStyles.fw900,
+                typoStyles.textPrimary,
+              ]}>
+              {'필수 서류 제출이 완료되지 않은 고객'}
+            </Text>
+            {`입니다.\n고객이 지참한 서류를 촬영하여 첨부해주세요.`}
           </Text>
-          {`입니다.\n고객이 지참한 서류를 촬영하여 첨부해주세요.`}
-        </Text>
-
-        <View style={styles.submitImgSection}>
-          <ImageSubmit img={img} setImg={setImg} />
+          <View style={styles.submitImgSection}>
+            <ImageSubmit img={img} setImg={setImg} />
+          </View>
         </View>
 
-        <CustomBtn
-          viewStyle={[btnStyles.btnBlue, styles.submitBtn]}
-          textStyle={[typoStyles.textWhite, typoStyles.fs20, typoStyles.fw900]}
-          viewStyleDisabled={[btnStyles.btnDisable, styles.submitBtn]}
-          text={'제출 완료'}
-        />
+        <View>
+          <CustomBtn
+            viewStyle={[btnStyles.btnBlue, styles.submitBtn]}
+            textStyle={[
+              typoStyles.textWhite,
+              typoStyles.fs20,
+              typoStyles.fw900,
+            ]}
+            viewStyleDisabled={[btnStyles.btnDisable, styles.submitBtn]}
+            text={'제출 완료'}
+            onPress={() => navigation.push('ServiceDetail')}
+          />
+        </View>
       </View>
     </CommonLayout>
   );
