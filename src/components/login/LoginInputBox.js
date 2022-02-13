@@ -14,12 +14,14 @@ const styles = StyleSheet.create({
     width: 252,
     height: 52,
     borderBottomWidth: 2,
+    color: 'black',
   },
   authinput: {
     width: 300,
     height: 52,
     borderBottomWidth: 2,
     marginBottom: 8,
+    color: 'black',
   },
   authbtn: {
     width: 300,
@@ -42,7 +44,7 @@ const LoginInputBox = ({isPass, placeHolder, Text, setText}) => {
         ]}
         underlineColorAndroid={'transparent'}
         placeholder={placeHolder}
-        placeholderTextColor={typoStyles.textDisable}
+        placeholderTextColor={'#DAD8E0'}
         autoCapitalize="none"
         value={Text}
         onChangeText={setText}
@@ -66,7 +68,7 @@ const AuthInputBox = ({isPass, placeHolder, value, setValue}) => {
         ]}
         underlineColorAndroid={'transparent'}
         placeholder={placeHolder}
-        placeholderTextColor={typoStyles.textDisable}
+        placeholderTextColor={'#DAD8E0'}
         autoCapitalize="none"
         value={value}
         onChangeText={setValue}
@@ -103,7 +105,7 @@ const AuthInputBoxWithoutBtn = ({isPass, placeHolder, value, setValue}) => {
         ]}
         underlineColorAndroid={'transparent'}
         placeholder={placeHolder}
-        placeholderTextColor={typoStyles.textDisable}
+        placeholderTextColor={'#DAD8E0'}
         autoCapitalize="none"
         value={value}
         onChangeText={setValue}

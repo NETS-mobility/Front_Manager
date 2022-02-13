@@ -13,6 +13,7 @@ import {ServiceDetailProgress} from '../../../components/service/detail/serviceD
 import MapView from '../../../components/service/detail/MapView';
 import {btnStyles} from '../../../components/common/button';
 import CustomBtn from '../../../components/common/button';
+import {ServiceTimePicker} from '../../../components/service/detail/servicePicker';
 
 const ServiceDetail = ({navigation}) => {
   const styles = StyleSheet.create({
@@ -92,6 +93,9 @@ const ServiceDetail = ({navigation}) => {
           type={2}
         />
         <ServiceDetailProgress />
+        <ServiceBlock>
+          <ServiceTimePicker />
+        </ServiceBlock>
         <ManagerComment comment={'문 앞에 도착하면 연락드리겠습니다!'} />
         <ServiceBlock>
           <ServiceInfo />

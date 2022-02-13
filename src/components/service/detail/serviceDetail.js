@@ -2,6 +2,7 @@ import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import typoStyles from '../../../assets/fonts/typography';
 import ServiceBlock from '../serviceBlock';
+import {ServiceTimePicker} from './servicePicker';
 
 const DetailProgressCircle = ({time, text}) => {
   const styles = StyleSheet.create({

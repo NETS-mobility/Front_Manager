@@ -8,12 +8,34 @@ import {
 } from 'react-native';
 import {btnStyles} from '../common/button';
 import typoStyles from '../../assets/fonts/typography';
+import ImageSubmit from '../common/imageSubmit';
 
 const styles = StyleSheet.create({
   detailbox: {
     width: 250,
     height: 52,
     borderBottomWidth: 2,
+    color: 'black',
+  },
+  detailbigbox: {
+    width: 310,
+    height: 104,
+    borderWidth: 2,
+    borderColor: '#DAD8E0',
+    shadowColor: '#DAD8E0',
+    shadowOffset: {width: 1, height: 1},
+    shadowOpacity: 0.4,
+    shadowRadius: 3,
+    elevation: 4,
+    backgroundColor: '#fff',
+    paddingHorizontal: 15,
+    paddingVertical: 15,
+  },
+  detailout: {
+    overflow: 'hidden',
+    paddingBottom: 5,
+    marginBottom: 10,
+    marginTop: 10,
   },
   boxalign: {
     width: '85%',
@@ -30,6 +52,7 @@ const styles = StyleSheet.create({
     width: 163,
     height: 52,
     borderBottomWidth: 2,
+    color: 'black',
   },
   btn: {
     width: 87,
@@ -58,7 +81,7 @@ const ChangeInput = ({title, place1, Text1, setText1}) => {
         ]}
         underlineColorAndroid={'transparent'}
         placeholder={place1}
-        placeholderTextColor={typoStyles.textDisable}
+        placeholderTextColor={'#DAD8E0'}
         autoCapitalize="none"
         value={Text1}
         onChangeText={setText1}
@@ -86,7 +109,7 @@ const ChangeInputWithBtn = ({title, place1, Text1, setText1, btntext}) => {
           ]}
           underlineColorAndroid={'transparent'}
           placeholder={place1}
-          placeholderTextColor={typoStyles.textDisable}
+          placeholderTextColor={'#DAD8E0'}
           autoCapitalize="none"
           value={Text1}
           onChangeText={setText1}
@@ -110,4 +133,32 @@ const ChangeInputWithBtn = ({title, place1, Text1, setText1, btntext}) => {
   );
 };
 
-export {ChangeInput, ChangeInputWithBtn};
+const ChangeBigInput = ({title, place1, Text1, setText1, image}) => {
+  const [isfocused, setFocus] = useState(false);
+  const [img, setImg] = useState('');
+
+  return (
+    <View>
+      <Text
+        style={[typoStyles.fs14, typoStyles.fwBold, typoStyles.textExplain]}>
+        {title}
+      </Text>
+      <View style={styles.detailout}>
+        <TextInput
+          onFocus={() => setFocus(true)}
+          onBlur={() => setFocus(false)}
+          style={styles.detailbigbox}
+          underlineColorAndroid={'transparent'}
+          placeholder={place1}
+          placeholderTextColor={'black'}
+          autoCapitalize="none"
+          value={Text1}
+          onChangeText={setText1}
+        />
+      </View>
+      {image ? <ImageSubmit img={img} setImg={setImg} /> : <></>}
+    </View>
+  );
+};
+
+export {ChangeInput, ChangeInputWithBtn, ChangeBigInput};
