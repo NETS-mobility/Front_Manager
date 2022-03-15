@@ -9,6 +9,7 @@ import MapView from './src/components/service/detail/MapView';
 // import ServiceSearch from './src/components/service/detail/serviceSearch';
 // import {ServiceHistory} from './src/screens/service';
 import BottomTab from './src/navigation/common/bottomTab';
+import axios from 'axios';
 
 const App = () => {
   return (

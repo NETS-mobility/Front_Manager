@@ -1,4 +1,4 @@
-import AuthScreen from "./authScreen";
-import LoginScreen from "./loginScreen";
+import AuthScreen from './authScreen';
+import LoginScreen from './LoginScreen';
 
 export {AuthScreen, LoginScreen};
