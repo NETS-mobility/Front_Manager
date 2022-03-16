@@ -16,7 +16,7 @@ const ImageSubmit = ({img, setImg}) => {
 
   const selectImg = () => {
     launchImageLibrary({mediaType: 'photo'}, (res) => {
-      setImg(res.assets[0].uri);
+      setImg(res.assets[0]);
       setImgName(res.assets[0].fileName);
     });
   };
@@ -24,11 +24,12 @@ const ImageSubmit = ({img, setImg}) => {
   useEffect(() => {
     getExtension();
     const datas = new FormData();
-    datas.append('images', {
+    datas.append('file', {
       name: img.fileName,
       type: 'multipart/form-data',
       uri: img.uri,
     });
+    datas.append('json', JSON.stringify({}));
     setImg(datas);
   }, [imgName]);
 
