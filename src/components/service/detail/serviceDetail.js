@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useReducer} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import typoStyles from '../../../assets/fonts/typography';
 import ServiceBlock from '../serviceBlock';
@@ -56,7 +56,7 @@ const DetailProgressCircle = ({time, text}) => {
   );
 };
 
-export const ServiceDetailProgress = () => {
+export const ServiceDetailProgress = (time) => {
   const styles = StyleSheet.create({
     title: {marginBottom: 12},
     steps: {
@@ -82,6 +82,7 @@ export const ServiceDetailProgress = () => {
       backgroundColor: '#19B7CD',
     },
   });
+
   return (
     <ServiceBlock>
       <Text
@@ -95,9 +96,9 @@ export const ServiceDetailProgress = () => {
       </Text>
       <View style={styles.steps}>
         <View style={styles.line1} />
-        <DetailProgressCircle time={'11:37'} text={'차량출발'} />
-        <DetailProgressCircle time={'11:48'} text={'픽업완료'} />
-        <DetailProgressCircle time={'12:12'} text={'병원도착'} />
+        <DetailProgressCircle time={time[0]?.time} text={'차량출발'} />
+        <DetailProgressCircle time={time[1]?.time} text={'픽업완료'} />
+        <DetailProgressCircle time={time[2]?.time} text={'병원도착'} />
       </View>
 
       <View style={styles.steps}>
