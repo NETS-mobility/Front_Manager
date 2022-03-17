@@ -9,6 +9,9 @@ import MapView from './src/components/service/detail/MapView';
 // import ServiceSearch from './src/components/service/detail/serviceSearch';
 // import {ServiceHistory} from './src/screens/service';
 import BottomTab from './src/navigation/common/bottomTab';
+import axios from 'axios';
+// axios.defaults.baseURL = 'http://10.0.2.2:5000';
+axios.defaults.baseURL = 'http://35.197.107.190:5000';
 
 const App = () => {
   return (

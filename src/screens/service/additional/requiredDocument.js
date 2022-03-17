@@ -5,9 +5,17 @@ import typoStyles from '../../../assets/fonts/typography';
 import CustomBtn from '../../../components/common/button';
 import {btnStyles} from '../../../components/common/button';
 import ImageSubmit from '../../../components/common/imageSubmit';
+import ImageSubmitAPI from '../../../api/imageSubmit';
 
 const RequiredDocument = ({navigation}) => {
   const [img, setImg] = useState('');
+
+  //========================================================================================
+  //여기 바꿔야 함
+  const service_id = 1;
+  //여기 바꿔야 함
+  //========================================================================================
+
   const styles = StyleSheet.create({
     block1: {
       width: '100%',
@@ -81,7 +89,10 @@ const RequiredDocument = ({navigation}) => {
             ]}
             viewStyleDisabled={[btnStyles.btnDisable, styles.submitBtn]}
             text={'제출 완료'}
-            onPress={() => navigation.push('ServiceDetail')}
+            onPress={() => {
+              ImageSubmitAPI(service_id, img);
+              // navigation.navigate('ServiceDetail');
+            }}
           />
         </View>
       </View>
