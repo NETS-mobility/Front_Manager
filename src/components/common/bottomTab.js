@@ -1,13 +1,12 @@
-import React from 'react';
-import {Text} from 'react-native';
+import React, {useContext} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {NavigationContainer} from '@react-navigation/native';
-import Reservation04 from '../../screens/service/reservation/reservation04';
-import {LoginMainScreen} from '../../screens/login';
-import ServiceDetailNavigator from '../../navigation/service/serviceDetail';
-import ChangePwNavigator from '../../navigation/mypage/changePW/changePW';
-import {ReservationNavigator} from '../../navigation/service/reservation';
+import ServiceDetailNavigator from '../service/serviceDetail';
+import MypageNavigator from '../mypage/mypageMain/mypageMain';
+import AlarmNavigator from '../alarm/alarm';
+import HomeNavigator from '../home/home';
+import {RefreshContext} from '../../../App';
 
 const Tab = createBottomTabNavigator();
 
@@ -16,7 +15,11 @@ const MyPageTab = () => {
 };
 
 const BottomTab = () => {
-  return (
+  const {refresh, setRefresh} = useContext(RefreshContext);
+
+  return refresh == null ? (
+    <></>
+  ) : (
     <NavigationContainer>
       <Tab.Navigator
         initialRouteName="Home"
