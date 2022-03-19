@@ -1,7 +1,10 @@
 import axios from 'axios';
-const GetMyInfo = async (token) => {
+import {GetToken} from '../../utils/controlToken';
+const GetMyInfo = async () => {
   try {
-    const res = await axios.post('/manager/mypage', {jwtToken: token});
+    const res = await axios.post('/manager/mypage', {
+      jwtToken: await GetToken(),
+    });
     return res.data;
   } catch (err) {
     return err;

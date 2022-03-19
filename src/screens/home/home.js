@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Image, Text, ScrollView} from 'react-native';
 import typoStyles from '../../assets/fonts/typography';
 import CommonLayout from '../../components/common/layout';
 import RestBlock from '../../components/home/restBlock';
+import GetTodayReserveList from '../../api/home/getTodayReserveList';
+import {NoticeBlock} from '../../components/home/noticeBlock';
 
 const Home = () => {
   const styles = StyleSheet.create({
@@ -43,6 +45,21 @@ const Home = () => {
       textAlign: 'center',
     },
   });
+
+  const [res, setRes] = useState([]);
+
+  const test = async () => {
+    setRes(await GetTodayReserveList());
+  };
+
+  useEffect(() => {
+    test();
+  }, []);
+
+  useEffect(() => {
+    console.log('res?', res);
+  }, [res]);
+
   return (
     <CommonLayout>
       <Image
@@ -60,6 +77,7 @@ const Home = () => {
         {`네츠\n모빌리티`}
       </Text>
       <ScrollView>
+        <NoticeBlock data={res} />
         <RestBlock />
         <View style={styles.howTo}>
           <Text style={styles.tempTxt}>이용안내 이미지</Text>
