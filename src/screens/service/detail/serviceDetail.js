@@ -13,9 +13,23 @@ import {ServiceDetailProgress} from '../../../components/service/detail/serviceD
 import MapView from '../../../components/service/detail/MapView';
 import CustomBtn, {btnStyles} from '../../../components/common/button';
 import {ServiceTimePicker} from '../../../components/service/detail/servicePicker';
-import RecodeTimeAPI from '../../../api/recodeTime';
+import RecodeTimeAPI from '../../../api/service/recodeTime';
+import GetServiceDetail from '../../../api/service/getServiceDetail';
 
-const ServiceDetail = ({navigation}) => {
+const ServiceDetail = ({navigation, route}) => {
+  const {detailId} = route.params;
+  const [detail, setDetail] = useState();
+
+  console.log(detailId);
+
+  const GetDetailInfos = async () => {
+    setDetail(await GetServiceDetail(detailId));
+  };
+
+  useEffect(() => {
+    GetDetailInfos();
+  }, [detailId]);
+
   const styles = StyleSheet.create({
     block1: {
       width: '100%',
@@ -56,7 +70,7 @@ const ServiceDetail = ({navigation}) => {
     {id: 6, time: '', text: '서비스종료'},
   ]);
   const [data, setData] = useState({
-    service_id: '22022611018',
+    service_id: detailId,
     recodeTime: {
       hours: 0,
       minutes: 0,
@@ -74,6 +88,10 @@ const ServiceDetail = ({navigation}) => {
       },
     });
   }, [pickTime]);
+
+  useEffect(() => {
+    console.log('setSendTime=', sendTime);
+  }, [sendTime]);
 
   useEffect(() => {
     console.log('data================', data);
@@ -126,9 +144,31 @@ const ServiceDetail = ({navigation}) => {
               typoStyles.textWhite,
             ]}
             text={'필수 서류 제출'}
-            onPress={() => navigation.push('RequiredDocument')}
+            onPress={() => navigation.push('RequiredDocument', {detailId})}
           />
         </ServiceBlock>
+        {/* {
+  "document_isSubmit": true,
+  "service_state": 0,
+  "service_state_time": [
+    "string"
+  ],
+  "manager": {
+    "name": "string",
+    "location": "string",
+    "mention": "string"
+  },
+  "service": {
+    "service_type": "string",
+    "start_time": "string",
+    "end_time": "string",
+    "rev_date": "string",
+    "pickup_address": "string",
+    "hos_address": "string",
+    "user_name": "string",
+    "reservation_state": 0
+  }
+} */}
 
         <CustomerProfile
           name={'홍길동'}
@@ -162,7 +202,6 @@ const ServiceDetail = ({navigation}) => {
                   it.id === i ? {...it, time: pickTime} : it,
                 ),
               );
-
               i = i + 1;
               const res = await RecodeTimeAPI(data);
               if (res.status === 200) {
@@ -184,7 +223,7 @@ const ServiceDetail = ({navigation}) => {
         </ServiceBlock>
         <ManagerComment comment={'문 앞에 도착하면 연락드리겠습니다!'} />
         <ServiceBlock>
-          <ServiceInfo />
+          <ServiceInfo num={2} />
         </ServiceBlock>
       </ScrollView>
     </CommonLayout>

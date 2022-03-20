@@ -56,7 +56,7 @@ const DetailProgressCircle = ({time, text}) => {
   );
 };
 
-export const ServiceDetailProgress = (time) => {
+export const ServiceDetailProgress = ({time}) => {
   const styles = StyleSheet.create({
     title: {marginBottom: 12},
     steps: {
@@ -96,16 +96,16 @@ export const ServiceDetailProgress = (time) => {
       </Text>
       <View style={styles.steps}>
         <View style={styles.line1} />
-        <DetailProgressCircle time={time[0]?.time} text={'차량출발'} />
-        <DetailProgressCircle time={time[1]?.time} text={'픽업완료'} />
-        <DetailProgressCircle time={time[2]?.time} text={'병원도착'} />
+        <DetailProgressCircle time={time[0]?.time} text={time[0]?.text} />
+        <DetailProgressCircle time={time[1]?.time} text={time[1]?.text} />
+        <DetailProgressCircle time={time[2]?.time} text={time[2]?.text} />
       </View>
 
       <View style={styles.steps}>
         <View style={styles.line2} />
-        <DetailProgressCircle time={'13:14'} text={'귀가차량\n병원도착'} />
-        <DetailProgressCircle time={'13:30'} text={'귀가출발'} />
-        <DetailProgressCircle time={'13:36'} text={'서비스종료'} />
+        <DetailProgressCircle time={time[3]?.time} text={time[3]?.text} />
+        <DetailProgressCircle time={time[4]?.time} text={time[4]?.text} />
+        <DetailProgressCircle time={time[5]?.time} text={time[5]?.text} />
       </View>
     </ServiceBlock>
   );

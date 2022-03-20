@@ -25,7 +25,7 @@ const ImageSubmit = ({img, setImg}) => {
     getExtension();
     const datas = new FormData();
     datas.append('file', {
-      name: img.fileName,
+      filename: img.fileName,
       type: 'multipart/form-data',
       uri: img.uri,
     });
