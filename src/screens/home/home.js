@@ -4,7 +4,7 @@ import typoStyles from '../../assets/fonts/typography';
 import CommonLayout from '../../components/common/layout';
 import RestBlock from '../../components/home/restBlock';
 
-const Home = () => {
+const Home = ({navigation}) => {
   const styles = StyleSheet.create({
     img: {
       position: 'relative',
@@ -43,6 +43,21 @@ const Home = () => {
       textAlign: 'center',
     },
   });
+
+  const [res, setRes] = useState([]);
+
+  const GetHomeList = async () => {
+    setRes(await GetTodayReserveList());
+  };
+
+  useEffect(() => {
+    GetHomeList();
+  }, []);
+
+  useEffect(() => {
+    console.log('res?', res);
+  }, [res]);
+
   return (
     <CommonLayout>
       <Image
@@ -60,10 +75,8 @@ const Home = () => {
         {`네츠\n모빌리티`}
       </Text>
       <ScrollView>
+        <NoticeBlock data={res} navi={navigation} />
         <RestBlock />
-        <View style={styles.howTo}>
-          <Text style={styles.tempTxt}>이용안내 이미지</Text>
-        </View>
       </ScrollView>
     </CommonLayout>
   );
