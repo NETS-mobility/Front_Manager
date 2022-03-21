@@ -1,36 +1,33 @@
-import React from 'react';
-import {StyleSheet, StatusBar, View} from 'react-native';
-import MapView from './src/components/service/detail/MapView';
-
-// import {Colors} from 'react-native/Libraries/NewAppScreen';
-// import EditNotice from './src/screens/service/editNotice';
-// import RequireDocument from './src/screens/service/requiredDocument';
-// import RestBlock from './src/components/home/restBlock';
-// import ServiceSearch from './src/components/service/detail/serviceSearch';
-// import {ServiceHistory} from './src/screens/service';
+import React, {useState, useMemo, createContext, useEffect} from 'react';
+import {StyleSheet, View} from 'react-native';
+import {GetToken} from './src/utils/controlToken';
 import BottomTab from './src/navigation/common/bottomTab';
 import axios from 'axios';
 // axios.defaults.baseURL = 'http://10.0.2.2:5000';
 axios.defaults.baseURL = 'http://35.197.107.190:5000';
 
+export const RefreshContext = createContext({
+  refresh: false,
+  setRefresh: () => {},
+});
+
 const App = () => {
+  const [refresh, setRefresh] = useState();
+  const value = useMemo(() => ({refresh, setRefresh}), [refresh, setRefresh]);
+  const mainR = async () => {
+    await GetToken().then((r) => setRefresh(r));
+  };
+
+  useEffect(() => {
+    mainR();
+  }, []);
+
   return (
-    <View style={styles.block}>
-      <BottomTab />
-      {/* {token?<></>:<BottomTab />} */}
-      {/* <StatusBar barStyle="dark-content" />
-      <MapView
-        appKey="l7xx9d4d587fe7104a57b8feda886c846d1f"
-        style={styles.map}
-        lat={48.577741}
-        lng={27.602706}
-      /> */}
-      {/* <EditNotice /> */}
-      {/* <RequireDocument /> */}
-      {/* <RestBlock /> */}
-      {/* <ServiceHistory /> */}
-      {/* <ServiceSearch /> */}
-    </View>
+    <RefreshContext.Provider value={value}>
+      <View style={styles.block}>
+        <BottomTab />
+      </View>
+    </RefreshContext.Provider>
   );
 };
 

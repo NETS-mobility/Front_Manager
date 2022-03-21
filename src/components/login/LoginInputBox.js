@@ -3,7 +3,7 @@ import {
   StyleSheet,
   View,
   Text,
-  TouchableNativeFeedback,
+  TouchableOpacity,
   TextInput,
 } from 'react-native';
 import typoStyles from '../../assets/fonts/typography';
@@ -14,14 +14,12 @@ const styles = StyleSheet.create({
     width: 252,
     height: 52,
     borderBottomWidth: 2,
-    color: 'black',
   },
   authinput: {
     width: 300,
     height: 52,
     borderBottomWidth: 2,
     marginBottom: 8,
-    color: 'black',
   },
   authbtn: {
     width: 300,
@@ -54,8 +52,6 @@ const LoginInputBox = ({isPass, placeHolder, Text, setText}) => {
 };
 
 const AuthInputBox = ({isPass, placeHolder, value, setValue}) => {
-  const [isfocused, setFocus] = useState(false);
-
   return (
     <View>
       <TextInput
@@ -73,7 +69,7 @@ const AuthInputBox = ({isPass, placeHolder, value, setValue}) => {
         value={value}
         onChangeText={setValue}
       />
-      <TouchableNativeFeedback>
+      <TouchableOpacity>
         <View
           style={
             isfocused
@@ -85,7 +81,7 @@ const AuthInputBox = ({isPass, placeHolder, value, setValue}) => {
             인증번호 전송
           </Text>
         </View>
-      </TouchableNativeFeedback>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -105,7 +101,7 @@ const AuthInputBoxWithoutBtn = ({isPass, placeHolder, value, setValue}) => {
         ]}
         underlineColorAndroid={'transparent'}
         placeholder={placeHolder}
-        placeholderTextColor={'#DAD8E0'}
+        placeholderTextColor={typoStyles.textDisable}
         autoCapitalize="none"
         value={value}
         onChangeText={setValue}

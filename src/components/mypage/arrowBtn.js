@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   View,
   TouchableNativeFeedback,
+  TouchableO,
 } from 'react-native';
 import {btnStyles} from '../common/button';
 import typoStyles from '../../assets/fonts/typography';

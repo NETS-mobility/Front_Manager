@@ -101,7 +101,7 @@ export const ManagerComment = ({comment}) => {
   );
 };
 
-export const ServiceInfo = ({num}) => {
+export const ServiceInfo = ({num, data}) => {
   const styles = StyleSheet.create({
     title: {
       marginBottom: 17,
@@ -122,20 +122,24 @@ export const ServiceInfo = ({num}) => {
           서비스 정보
         </Text>
       )}
-      <ServiceInfoOneLine title={'서비스 번호'} value={'21102323921'} />
-      <ServiceInfoOneLine title={'픽업 예정 시간'} value={'11:00'} />
-      <ServiceInfoOneLine title={'픽업 주소'} value={'성북구 길음동 11-15'} />
-      <ServiceInfoOneLine title={'병원'} value={'서울백병원'} />
-      <ServiceInfoOneLine title={'희망 병원 도착 시간'} value={'12:00'} />
-      <ServiceInfoOneLine title={'진료/검사 예약 시간'} value={'12:30'} />
-      <ServiceInfoOneLine title={'귀가 출발 시간'} value={'14:00'} />
-      <ServiceInfoOneLine title={'고객 이름'} value={'홍길동'} />
-      <ServiceInfoOneLine title={'고객 전화번호'} value={'010-0000-2222'} />
-      <ServiceInfoOneLine title={'동행 매니저'} value={'김강빈'} />
+      <ServiceInfoOneLine title={'서비스 번호'} value={data?.service_id} />
       <ServiceInfoOneLine
-        title={'동행 매니저 전화번호'}
-        value={'010-2221-5555'}
+        title={'픽업 예정 시간'}
+        value={data?.pickup_time.substring(0, 5)}
       />
+      <ServiceInfoOneLine title={'픽업 주소'} value={data?.pickup_address} />
+      <ServiceInfoOneLine title={'병원 주소'} value={data?.hos_address} />
+      <ServiceInfoOneLine
+        title={'희망 병원 도착 시간'}
+        value={data?.hos_arrival_time.substring(0, 5)}
+      />
+      <ServiceInfoOneLine
+        title={'진료/검사 예약 시간'}
+        value={data?.hos_care_time.substring(0, 5)}
+      />
+      <ServiceInfoOneLine title={'고객 이름'} value={data?.user_name} />
+      <ServiceInfoOneLine title={'고객 전화번호'} value={data?.user_name} />
+      <ServiceInfoOneLine title={'동행 매니저'} value={data?.gowithumanager} />
     </View>
   );
 };
