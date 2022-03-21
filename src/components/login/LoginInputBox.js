@@ -7,7 +7,7 @@ import {
   TextInput,
 } from 'react-native';
 import typoStyles from '../../assets/fonts/typography';
-import {btnStyles} from '../common/button';
+import {btnStyles} from '../../assets/fonts/button';
 
 const styles = StyleSheet.create({
   input: {
