@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 31,
     paddingVertical: 17,
     borderColor: '#737373',
-    borderTopColor: 2,
+    borderTopWidth: 2,
     borderBottomWidth: 2,
   },
   btns: {
