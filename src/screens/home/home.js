@@ -1,16 +1,10 @@
-import React from 'react';
-import {
-  View,
-  StyleSheet,
-  Image,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
-import {btnStyles, shadowStyles} from '../../assets/fonts/button';
+import React, {useEffect, useState} from 'react';
+import {View, StyleSheet, Image, Text, ScrollView} from 'react-native';
 import typoStyles from '../../assets/fonts/typography';
 import CommonLayout from '../../components/common/layout';
 import RestBlock from '../../components/home/restBlock';
+import GetTodayReserveList from '../../api/home/getTodayReserveList';
+import {NoticeBlock} from '../../components/home/noticeBlock';
 
 const Home = ({navigation}) => {
   const styles = StyleSheet.create({
@@ -51,10 +45,25 @@ const Home = ({navigation}) => {
       textAlign: 'center',
     },
   });
+
+  const [res, setRes] = useState([]);
+
+  const GetHomeList = async () => {
+    setRes(await GetTodayReserveList());
+  };
+
+  useEffect(() => {
+    GetHomeList();
+  }, []);
+
+  useEffect(() => {
+    console.log('res?', res);
+  }, [res]);
+
   return (
     <CommonLayout>
       <Image
-        source={require('../../assets/image/startimg2.png')}
+        source={require('../../assets/image/startimg.png')}
         style={styles.img}
       />
       <View style={styles.imgBox}></View>
@@ -68,10 +77,8 @@ const Home = ({navigation}) => {
         {`네츠\n모빌리티`}
       </Text>
       <ScrollView>
+        <NoticeBlock data={res} navi={navigation} />
         <RestBlock />
-        <View style={styles.howTo}>
-          <Text style={styles.tempTxt}>이용안내 이미지</Text>
-        </View>
       </ScrollView>
     </CommonLayout>
   );

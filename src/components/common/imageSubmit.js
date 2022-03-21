@@ -1,28 +1,37 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import typoStyles from '../../assets/fonts/typography';
-import CustomBtn from '../../assets/fonts/button';
-import {btnStyles} from '../../assets/fonts/button';
+import CustomBtn from './button';
+import {btnStyles} from './button';
 import {launchImageLibrary} from 'react-native-image-picker';
 
 const ImageSubmit = ({img, setImg}) => {
   const [ext, setExt] = useState('');
+  const [imgName, setImgName] = useState('');
 
   const getExtension = () => {
-    const splitImgName = img.split('.');
+    const splitImgName = imgName.split('.');
     setExt(`.${splitImgName[1]}`);
   };
 
   const selectImg = () => {
     launchImageLibrary({mediaType: 'photo'}, (res) => {
-      console.log(res.assets[0].fileName);
-      setImg(res.assets[0].fileName);
+      setImg(res.assets[0]);
+      setImgName(res.assets[0].fileName);
     });
   };
 
   useEffect(() => {
     getExtension();
-  }, [img]);
+    const datas = new FormData();
+    datas.append('file', {
+      filename: img.fileName,
+      type: 'multipart/form-data',
+      uri: img.uri,
+    });
+    datas.append('json', JSON.stringify({}));
+    setImg(datas);
+  }, [imgName]);
 
   const styles = StyleSheet.create({
     submitImgBtn: {width: 122, height: 30, alignSelf: 'center'},
@@ -38,11 +47,11 @@ const ImageSubmit = ({img, setImg}) => {
         text={'이미지 선택'}
         onPress={selectImg}
       />
-      {img == '' ? (
+      {imgName === '' ? (
         <></>
       ) : (
         <Text style={styles.imgName}>
-          선택된 파일: {img.substring(25, 35) + '... ' + ext}
+          선택된 파일: {imgName.substring(25, 35) + '... ' + ext}
         </Text>
       )}
     </>

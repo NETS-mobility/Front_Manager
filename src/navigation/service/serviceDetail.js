@@ -1,7 +1,7 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {ServiceDetail, ServiceHistory} from '../../screens/service';
-import {FindID} from '../../screens/findAuth';
+import { RequiredDocument } from '../../screens/service';
 
 const Stack = createNativeStackNavigator();
 
@@ -12,6 +12,7 @@ const ServiceDetailNavigator = () => {
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="ServiceHistory" component={ServiceHistory} />
       <Stack.Screen name="ServiceDetail" component={ServiceDetail} />
+      <Stack.Screen name="RequiredDocument" component={RequiredDocument} />
     </Stack.Navigator>
   );
 };

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useEffect, useReducer} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import typoStyles from '../../../assets/fonts/typography';
 import ServiceBlock from '../serviceBlock';
+import {ServiceTimePicker} from './servicePicker';
 
 const DetailProgressCircle = ({time, text}) => {
   const styles = StyleSheet.create({
@@ -55,7 +56,7 @@ const DetailProgressCircle = ({time, text}) => {
   );
 };
 
-export const ServiceDetailProgress = () => {
+export const ServiceDetailProgress = ({time}) => {
   const styles = StyleSheet.create({
     title: {marginBottom: 12},
     steps: {
@@ -81,6 +82,7 @@ export const ServiceDetailProgress = () => {
       backgroundColor: '#19B7CD',
     },
   });
+
   return (
     <ServiceBlock>
       <Text
@@ -94,16 +96,16 @@ export const ServiceDetailProgress = () => {
       </Text>
       <View style={styles.steps}>
         <View style={styles.line1} />
-        <DetailProgressCircle time={'11:37'} text={'차량출발'} />
-        <DetailProgressCircle time={'11:48'} text={'픽업완료'} />
-        <DetailProgressCircle time={'12:12'} text={'병원도착'} />
+        <DetailProgressCircle time={time[0]?.time} text={time[0]?.text} />
+        <DetailProgressCircle time={time[1]?.time} text={time[1]?.text} />
+        <DetailProgressCircle time={time[2]?.time} text={time[2]?.text} />
       </View>
 
       <View style={styles.steps}>
         <View style={styles.line2} />
-        <DetailProgressCircle time={'13:14'} text={'귀가차량\n병원도착'} />
-        <DetailProgressCircle time={'13:30'} text={'귀가출발'} />
-        <DetailProgressCircle time={'13:36'} text={'서비스종료'} />
+        <DetailProgressCircle time={time[3]?.time} text={time[3]?.text} />
+        <DetailProgressCircle time={time[4]?.time} text={time[4]?.text} />
+        <DetailProgressCircle time={time[5]?.time} text={time[5]?.text} />
       </View>
     </ServiceBlock>
   );

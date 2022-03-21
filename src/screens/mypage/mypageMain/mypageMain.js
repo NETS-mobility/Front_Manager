@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {
   StyleSheet,
   ScrollView,
@@ -13,6 +13,8 @@ import {ArrowBtn} from '../../../components/mypage/arrowBtn';
 import {btnStyles} from '../../../components/common/button';
 import {DeleteToken} from '../../../utils/controlToken';
 import GetMyInfo from '../../../api/mypage/getMyInfo';
+import {useIsFocused} from '@react-navigation/native';
+import {RefreshContext} from '../../../../App';
 
 const styles = StyleSheet.create({
   background: {
@@ -65,10 +67,12 @@ const styles = StyleSheet.create({
 const MypageMain = ({navigation}) => {
   const isFocused = useIsFocused();
   const [result, setResult] = useState();
+  const {refresh, setRefresh} = useContext(RefreshContext);
+
   useEffect(() => {
     async function fetchData() {
       setResult(
-        await GetUserInfo()
+        await GetMyInfo()
           .then((res) => res)
           .catch((err) => err),
       );
@@ -88,6 +92,7 @@ const MypageMain = ({navigation}) => {
             <TouchableOpacity
               onPress={() => {
                 DeleteToken();
+                setRefresh(null);
                 navigation.navigate('LoginScreen');
               }}>
               <View style={[btnStyles.btnBlue, styles.logoutbtn]}>
@@ -108,7 +113,7 @@ const MypageMain = ({navigation}) => {
             <View style={styles.infoalign}>
               <Text
                 style={[typoStyles.fs20, typoStyles.fwBold, styles.usertext]}>
-                {result?.user_name}매니저님
+                {result?.user_name} 매니저님
               </Text>
               <TouchableOpacity
                 onPress={() => {

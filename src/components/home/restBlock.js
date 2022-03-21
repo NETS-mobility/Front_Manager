@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {btnStyles} from '../../assets/fonts/button';
+import {btnStyles} from '../common/button';
 import typoStyles from '../../assets/fonts/typography';
 
 const RestBlock = () => {
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 31,
     paddingVertical: 17,
     borderColor: '#737373',
-    borderTopColor: 2,
+    borderTopWidth: 2,
     borderBottomWidth: 2,
   },
   btns: {

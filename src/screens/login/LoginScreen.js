@@ -1,20 +1,23 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   SafeAreaView,
-  StyleSheet,
   View,
+  StyleSheet,
   Text,
-  TouchableNativeFeedback,
+  TouchableOpacity,
+  Linking,
 } from 'react-native';
-import NetsLogo from '../../assets/image/logo.svg';
-import LoginInputBox from '../../components/login/LoginInputBox';
+import NetsLogo from '../../assets/icon/logo_blue.svg';
+import {LoginInputBox} from '../../components/login/LoginInputBox';
 import {LoginBtn} from '../../components/login/LoginBtn';
 import typoStyles from '../../assets/fonts/typography';
 import LoginAPI from '../../api/login';
+import {RefreshContext} from '../../../App';
 
 const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
+  const {refresh, setRefresh} = useContext(RefreshContext);
   return (
     <SafeAreaView style={styles.background}>
       <View>
@@ -57,8 +60,9 @@ const LoginScreen = ({navigation}) => {
                 } else {
                   navigation.navigate('HomeScreen');
                 }
+                setRefresh(true);
               } else {
-                console.log('에러임');
+                setRefresh(null);
               }
             }}
           />
@@ -72,23 +76,39 @@ const LoginScreen = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
-  wrap: {
+  background: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: 'white',
   },
-
-  netImg: {
-    marginBottom: 72,
+  line: {
+    backgroundColor: '#19B7CD',
+    width: '100%',
+    height: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-
-  inputBox: {
-    marginTop: 57,
+  logo: {
+    marginBottom: 10,
   },
-
-  bottom: {
-    flexDirection: 'row',
+  text: {
+    backgroundColor: 'white',
+    width: '35%',
+    textAlign: 'center',
+  },
+  logotext: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 100,
+    marginTop: 70,
+  },
+  inputbox: {
+    marginBottom: 50,
+  },
+  managertext: {
+    fontSize: 15,
+    color: '#737373',
+  },
+  setcenter: {
     alignItems: 'center',
   },
 });

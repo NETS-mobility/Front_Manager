@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -6,11 +6,12 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import {btnStyles} from '../../../assets/fonts/button';
+import {btnStyles} from '../../../components/common/button';
 import typoStyles from '../../../assets/fonts/typography';
 import CommonLayout from '../../../components/common/layout';
 import {ServiceHistoryBlock} from '../../../components/service/detail/serviceHistoryComponent';
 import ServiceSearch from '../../../components/service/detail/serviceSearch';
+import GetServiceList from '../../../api/service/getServiceList';
 
 const ServiceHistory = ({navigation}) => {
   const styles = StyleSheet.create({
@@ -46,6 +47,28 @@ const ServiceHistory = ({navigation}) => {
       marginTop: 20,
     },
   });
+
+  const [ing, setIng] = useState(true);
+  const [serviceIng, setServiceIng] = useState([]);
+  const [serviceComp, setServiceComp] = useState([]);
+
+  const GetServiceLists = async () => {
+    setServiceIng(await GetServiceList(0));
+    setServiceComp(await GetServiceList(1));
+  };
+
+  useEffect(() => {
+    GetServiceLists();
+  }, []);
+
+  // useEffect(() => {
+  //   console.log('serviceIng=', serviceIng);
+  // }, [serviceIng]);
+
+  useEffect(() => {
+    console.log('serviceComp=', serviceComp);
+  }, [serviceComp]);
+
   return (
     <CommonLayout>
       <ScrollView>
@@ -61,27 +84,42 @@ const ServiceHistory = ({navigation}) => {
           </Text>
 
           <View style={styles.selectSection}>
-            <TouchableOpacity style={styles.selectBtn}>
+            <TouchableOpacity
+              style={styles.selectBtn}
+              onPress={() => setIng(true)}>
               <Text
                 style={[
                   typoStyles.fs13,
                   typoStyles.fw700,
-                  typoStyles.textMain,
+                  ing ? typoStyles.textMain : typoStyles.textDisable,
                 ]}>
                 진행 내역
               </Text>
-              <View style={[styles.selectBar, styles.active]} />
+              <View
+                style={[
+                  styles.selectBar,
+                  ing ? styles.active : styles.nonActive,
+                ]}
+              />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.selectBtn}>
+
+            <TouchableOpacity
+              style={styles.selectBtn}
+              onPress={() => setIng(false)}>
               <Text
                 style={[
                   typoStyles.fs13,
                   typoStyles.fw700,
-                  typoStyles.textDisable,
+                  ing ? typoStyles.textDisable : typoStyles.textMain,
                 ]}>
                 완료 내역
               </Text>
-              <View style={[styles.selectBar, styles.nonActive]} />
+              <View
+                style={[
+                  styles.selectBar,
+                  ing ? styles.nonActive : styles.active,
+                ]}
+              />
             </TouchableOpacity>
           </View>
 
@@ -93,18 +131,33 @@ const ServiceHistory = ({navigation}) => {
             </Text>
           </TouchableOpacity>
         </View>
+
         <View>
-          <ServiceHistoryBlock
-            date={'2021.10.20'}
-            type={'네츠 휠체어 플러스'}
-            goNext={navigation}
-            goNext={() => navigation.navigate('ServiceDetail')}
-          />
-          <ServiceHistoryBlock
-            date={'2021.10.22'}
-            type={'네츠 휠체어 플러스'}
-            goNext={() => navigation.navigate('ServiceDetail')}
-          />
+          {ing
+            ? serviceIng != [] &&
+              serviceIng?.map((data, i) => {
+                const detailId = data?.service_id;
+                return (
+                  <ServiceHistoryBlock
+                    data={data}
+                    goNext={() =>
+                      navigation.navigate(`ServiceDetail`, {detailId})
+                    }
+                  />
+                );
+              })
+            : serviceComp != [] &&
+              serviceComp?.map((data, i) => {
+                const detailId = data?.service_id;
+                return (
+                  <ServiceHistoryBlock
+                    data={data}
+                    goNext={() =>
+                      navigation.navigate(`ServiceDetail`, {detailId})
+                    }
+                  />
+                );
+              })}
         </View>
       </ScrollView>
     </CommonLayout>
