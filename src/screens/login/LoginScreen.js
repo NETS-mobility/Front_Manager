@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   SafeAreaView,
   View,
@@ -7,15 +7,17 @@ import {
   TouchableOpacity,
   Linking,
 } from 'react-native';
-import NetsLogo from '../../assets/image/logo.svg';
+import NetsLogo from '../../assets/icon/logo_blue.svg';
 import {LoginInputBox} from '../../components/login/LoginInputBox';
 import {LoginBtn} from '../../components/login/LoginBtn';
 import typoStyles from '../../assets/fonts/typography';
 import LoginAPI from '../../api/login';
+import {RefreshContext} from '../../../App';
 
 const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
+  const {refresh, setRefresh} = useContext(RefreshContext);
   return (
     <SafeAreaView style={styles.background}>
       <View>
@@ -52,10 +54,15 @@ const LoginScreen = ({navigation}) => {
             btnName={'로그인'}
             navWhere={async () => {
               const res = await LoginAPI({id: email, password: pass});
-              if (res.status === 200) {
-                navigation.navigate('HomeScreen');
+              if (res.success === true) {
+                if (res.checkPhone == '최초 로그인 휴대폰 인증 필요') {
+                  navigation.navigate('AuthScreen');
+                } else {
+                  navigation.navigate('HomeScreen');
+                }
+                setRefresh(true);
               } else {
-                console.log('에러임');
+                setRefresh(null);
               }
             }}
           />

@@ -5,7 +5,7 @@ const LoginAPI = async (data) => {
   try {
     const res = await axios.post('/manager/login', data);
     SetToken(res.data.token);
-    return res;
+    return res.data;
   } catch (err) {
     return err;
   }

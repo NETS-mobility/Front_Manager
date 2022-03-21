@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Image, Text, ScrollView} from 'react-native';
 import typoStyles from '../../assets/fonts/typography';
 import CommonLayout from '../../components/common/layout';
 import RestBlock from '../../components/home/restBlock';
+import GetTodayReserveList from '../../api/home/getTodayReserveList';
+import {NoticeBlock} from '../../components/home/noticeBlock';
 
 const Home = ({navigation}) => {
   const styles = StyleSheet.create({

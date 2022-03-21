@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   btnset: {},
 });
 
-const ChangeInput = ({title, place1, Text1, setText1}) => {
+const ChangeInput = ({title, place1, text, setText, propName}) => {
   const [isfocused, setFocus] = useState(false);
 
   return (
@@ -83,14 +83,28 @@ const ChangeInput = ({title, place1, Text1, setText1}) => {
         placeholder={place1}
         placeholderTextColor={'#DAD8E0'}
         autoCapitalize="none"
-        value={Text1}
-        onChangeText={setText1}
+        value={text}
+        // onChange={(e) => {
+        //   e.persist();
+        //   setText((prev) => ({...prev, [propName]: e.target.value}));
+        // }}
+        onChangeText={(text) =>
+          setText((prev) => ({...prev, [propName]: text}))
+        }
       />
     </View>
   );
 };
 
-const ChangeInputWithBtn = ({title, place1, Text1, setText1, btntext}) => {
+const ChangeInputWithBtn = ({
+  title,
+  place1,
+  text,
+  setText,
+  btntext,
+  propName,
+  onPress,
+}) => {
   const [isfocused, setFocus] = useState(false);
 
   return (
@@ -111,11 +125,18 @@ const ChangeInputWithBtn = ({title, place1, Text1, setText1, btntext}) => {
           placeholder={place1}
           placeholderTextColor={'#DAD8E0'}
           autoCapitalize="none"
-          value={Text1}
-          onChangeText={setText1}
+          value={text}
+          // onChange={(e) => {
+          //   e.persist();
+          //   console.log('e===', e.target);
+          //   setText((prev) => ({...prev, [propName]: e.target.value}));
+          // }}
+          onChangeText={(text) =>
+            setText((prev) => ({...prev, [propName]: text}))
+          }
         />
         <View style={styles.btnset}>
-          <TouchableNativeFeedback>
+          <TouchableNativeFeedback onPress={onPress}>
             <View style={[btnStyles.btnDisable, styles.btn]}>
               <Text
                 style={[
@@ -133,7 +154,7 @@ const ChangeInputWithBtn = ({title, place1, Text1, setText1, btntext}) => {
   );
 };
 
-const ChangeBigInput = ({title, place1, Text1, setText1, image}) => {
+const ChangeBigInput = ({title, text, setText, image, propName}) => {
   const [isfocused, setFocus] = useState(false);
   const [img, setImg] = useState('');
 
@@ -149,11 +170,16 @@ const ChangeBigInput = ({title, place1, Text1, setText1, image}) => {
           onBlur={() => setFocus(false)}
           style={styles.detailbigbox}
           underlineColorAndroid={'transparent'}
-          placeholder={place1}
-          placeholderTextColor={'black'}
           autoCapitalize="none"
-          value={Text1}
-          onChangeText={setText1}
+          defaultValue={text}
+          // onChange={(e) => {
+          //   e.persist();
+          //   setText((prev) => ({...prev, [propName]: e.target.value}));
+          // }}
+          onChangeText={(text) =>
+            setText((prev) => ({...prev, [propName]: text}))
+          }
+          multiline={true}
         />
       </View>
       {image ? <ImageSubmit img={img} setImg={setImg} /> : <></>}

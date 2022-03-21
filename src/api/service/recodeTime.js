@@ -5,7 +5,7 @@ const RecodeTimeAPI = async (data) => {
     console.log('recodeTimeAPI request data', data);
     const res = await axios.post(
       //   `/manager/service/serviceDetail/${data.service_id}/${data.recodeTime}`,
-      `/manager/service/serviceDetail/200209000000/${data.recodeTime}`,
+      `/manager/service/serviceDetail/${data.service_id}/recodeTime`,
       data,
     );
     console.log('recodeTime status', res.status);
