@@ -5,6 +5,7 @@ import {
   Text,
   TouchableNativeFeedback,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import typoStyles from '../../../assets/fonts/typography';
 import CommonLayout from '../../../components/common/layout';
@@ -21,7 +22,6 @@ import ChangeManagerInfo from '../../../api/mypage/ChangeManagerInfo';
 import CheckEmailDupAPI from '../../../api/mypage/checkEmailDup';
 import {EmailValidation} from '../../../utils/validation';
 import CheckPhoneAPI from '../../../api/mypage/checkPhone';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const styles = StyleSheet.create({
   background: {
@@ -209,6 +209,24 @@ const ChangeInfo = () => {
                 setText={setManagerInfo}
                 propName={'checkPhoneNum'}
               />
+              {/* <ChangeInput
+                title={'자격증1'}
+                place1={'자격증 이름'}
+                text={certificate1}
+                setText1={setCertificate1}
+              />
+              <ChangeInput
+                title={'자격증2'}
+                place1={'자격증 이름'}
+                text={certificate2}
+                setText1={setCertificate2}
+              />
+              <ChangeInput
+                title={'자격증3'}
+                place1={'자격증 이름'}
+                text={certificate3}
+                setText1={setCertificate3}
+              /> */}
             </View>
           </View>
           <View style={styles.wrapbtn}>
@@ -219,6 +237,27 @@ const ChangeInfo = () => {
                 typoStyles.textPrimary,
               ]}>
               {checkErr.errMsg}
+            </Text>
+            <CustomBtn
+              viewStyle={[btnStyles.btnBlue, styles.savebtn]}
+              textStyle={[
+                typoStyles.fs20,
+                typoStyles.fwBold,
+                typoStyles.textWhite,
+              ]}
+              viewStyleDisabled={[btnStyles.btnDisable, styles.savebtn]}
+              textStyleDisabled={[
+                typoStyles.fs20,
+                typoStyles.fwBold,
+                typoStyles.textWhite,
+              ]}
+              text={'변경 정보 저장'}
+              disabled={dis}
+            />
+            {/* <TouchableOpacity
+              onPress={() => ChangeManagerInfo(managerInfo)}
+              disabled={dis}>
+              {managerInfo.errMsg}
             </Text>
             <CustomBtn
               viewStyle={[btnStyles.btnBlue, styles.savebtn]}
