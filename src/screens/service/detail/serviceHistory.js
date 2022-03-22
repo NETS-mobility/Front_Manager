@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -11,6 +11,7 @@ import typoStyles from '../../../assets/fonts/typography';
 import CommonLayout from '../../../components/common/layout';
 import {ServiceHistoryBlock} from '../../../components/service/detail/serviceHistoryComponent';
 import ServiceSearch from '../../../components/service/detail/serviceSearch';
+import GetServiceList from '../../../api/service/getServiceList';
 
 const ServiceHistory = ({navigation}) => {
   const styles = StyleSheet.create({
@@ -77,27 +78,42 @@ const ServiceHistory = ({navigation}) => {
           </Text>
 
           <View style={styles.selectSection}>
-            <TouchableOpacity style={styles.selectBtn}>
+            <TouchableOpacity
+              style={styles.selectBtn}
+              onPress={() => setIng(true)}>
               <Text
                 style={[
                   typoStyles.fs13,
                   typoStyles.fw700,
-                  typoStyles.textMain,
+                  ing ? typoStyles.textMain : typoStyles.textDisable,
                 ]}>
                 진행 내역
               </Text>
-              <View style={[styles.selectBar, styles.active]} />
+              <View
+                style={[
+                  styles.selectBar,
+                  ing ? styles.active : styles.nonActive,
+                ]}
+              />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.selectBtn}>
+
+            <TouchableOpacity
+              style={styles.selectBtn}
+              onPress={() => setIng(false)}>
               <Text
                 style={[
                   typoStyles.fs13,
                   typoStyles.fw700,
-                  typoStyles.textDisable,
+                  ing ? typoStyles.textDisable : typoStyles.textMain,
                 ]}>
                 완료 내역
               </Text>
-              <View style={[styles.selectBar, styles.nonActive]} />
+              <View
+                style={[
+                  styles.selectBar,
+                  ing ? styles.nonActive : styles.active,
+                ]}
+              />
             </TouchableOpacity>
           </View>
 
@@ -114,6 +130,7 @@ const ServiceHistory = ({navigation}) => {
             </Text>
           </TouchableOpacity>
         </View>
+
         <View>
           {ing
             ? serviceIng != [] &&

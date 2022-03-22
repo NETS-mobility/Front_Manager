@@ -74,7 +74,7 @@ const ServiceDetail = ({navigation, route}) => {
 
   const [pickTime, setPickTime] = useState('');
   const [data, setData] = useState({
-    service_id: '22022611018',
+    service_id: detailId,
     recodeTime: {
       hours: 0,
       minutes: 0,
@@ -91,6 +91,10 @@ const ServiceDetail = ({navigation, route}) => {
       },
     });
   }, [pickTime]);
+
+  useEffect(() => {
+    console.log('setSendTime=', sendTime);
+  }, [sendTime]);
 
   useEffect(() => {
     console.log('data================', data);
@@ -138,7 +142,7 @@ const ServiceDetail = ({navigation, route}) => {
               typoStyles.textWhite,
             ]}
             text={'필수 서류 제출'}
-            onPress={() => navigation.push('RequiredDocument')}
+            onPress={() => navigation.push('RequiredDocument', {detailId})}
           />
         </ServiceBlock>
         <CustomerProfile
