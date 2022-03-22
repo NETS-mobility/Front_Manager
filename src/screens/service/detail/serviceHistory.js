@@ -51,23 +51,17 @@ const ServiceHistory = ({navigation}) => {
   const [ing, setIng] = useState(true);
   const [serviceIng, setServiceIng] = useState([]);
   const [serviceComp, setServiceComp] = useState([]);
+  const [pickedDate, setPickedDate] = useState('');
 
   const GetServiceLists = async () => {
-    setServiceIng(await GetServiceList(0));
-    setServiceComp(await GetServiceList(1));
+    setServiceIng(await GetServiceList(0, pickedDate));
+    setServiceComp(await GetServiceList(1, pickedDate));
   };
 
   useEffect(() => {
-    GetServiceLists();
-  }, []);
-
-  // useEffect(() => {
-  //   console.log('serviceIng=', serviceIng);
-  // }, [serviceIng]);
-
-  useEffect(() => {
     console.log('serviceComp=', serviceComp);
-  }, [serviceComp]);
+    console.log('serviceIng', serviceIng);
+  }, [serviceComp, serviceIng]);
 
   return (
     <CommonLayout>
@@ -123,8 +117,13 @@ const ServiceHistory = ({navigation}) => {
             </TouchableOpacity>
           </View>
 
-          <ServiceSearch />
-          <TouchableOpacity style={[btnStyles.btnBlue, styles.searchBtn]}>
+          <ServiceSearch
+            pickedDate={pickedDate}
+            setPickedDate={setPickedDate}
+          />
+          <TouchableOpacity
+            style={[btnStyles.btnBlue, styles.searchBtn]}
+            onPress={() => GetServiceLists()}>
             <Text
               style={[typoStyles.fw900, typoStyles.textWhite, typoStyles.fs14]}>
               검색
@@ -136,7 +135,7 @@ const ServiceHistory = ({navigation}) => {
           {ing
             ? serviceIng != [] &&
               serviceIng?.map((data, i) => {
-                const detailId = data?.service_id;
+                const detailId = data.service_id;
                 return (
                   <ServiceHistoryBlock
                     data={data}

@@ -125,7 +125,8 @@ const ChangeInputWithBtn = ({
           placeholder={place1}
           placeholderTextColor={'#DAD8E0'}
           autoCapitalize="none"
-          value={text}
+          // value={text}
+          defaultValue={text}
           // onChange={(e) => {
           //   e.persist();
           //   console.log('e===', e.target);

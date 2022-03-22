@@ -12,16 +12,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
+    textAlign: 'center',
     marginVertical: 18,
   },
   contents: {
     backgroundColor: '#fff',
     width: '100%',
-    padding: 5,
+    padding: 10,
     borderWidth: 0,
     borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
+    textAlign: 'center',
     marginTop: 16,
   },
   marginText: {
@@ -47,9 +49,10 @@ const NoticeBlock = ({data, navi}) => {
         </Text>
       )}
       {data.service?.map((content, i) => {
-        const pickupString = `${content.rev_date.substring(0, 10)} ${
-          content.pickup_time
-        }`;
+        const pickupString = `${content.rev_date.substring(
+          0,
+          10,
+        )} ${content.pickup_time.substring(0, 5)}`;
         return (
           <TouchableOpacity
             style={styles.contents}
@@ -59,8 +62,27 @@ const NoticeBlock = ({data, navi}) => {
                 typoStyles.textExplainBold,
                 typoStyles.fs15,
                 typoStyles.fw700,
+                {textAlign: 'center'},
               ]}>
-              {`${pickupString}\n${content.service_type}\n${content.departure_address}`}
+              {pickupString}
+            </Text>
+            <Text
+              style={[
+                typoStyles.textExplainBold,
+                typoStyles.fs15,
+                typoStyles.fw700,
+                {textAlign: 'center'},
+              ]}>
+              {content.service_type}
+            </Text>
+            <Text
+              style={[
+                typoStyles.textExplainBold,
+                typoStyles.fs15,
+                typoStyles.fw700,
+                {textAlign: 'center'},
+              ]}>
+              {content.departure_address}
             </Text>
           </TouchableOpacity>
         );
