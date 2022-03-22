@@ -46,6 +46,22 @@ const ServiceHistory = ({navigation}) => {
       marginTop: 20,
     },
   });
+
+  const [ing, setIng] = useState(true);
+  const [serviceIng, setServiceIng] = useState([]);
+  const [serviceComp, setServiceComp] = useState([]);
+  const [pickedDate, setPickedDate] = useState('');
+
+  const GetServiceLists = async () => {
+    setServiceIng(await GetServiceList(0, pickedDate));
+    setServiceComp(await GetServiceList(1, pickedDate));
+  };
+
+  useEffect(() => {
+    console.log('serviceComp=', serviceComp);
+    console.log('serviceIng', serviceIng);
+  }, [serviceComp, serviceIng]);
+
   return (
     <CommonLayout>
       <ScrollView>
@@ -85,8 +101,13 @@ const ServiceHistory = ({navigation}) => {
             </TouchableOpacity>
           </View>
 
-          <ServiceSearch />
-          <TouchableOpacity style={[btnStyles.btnBlue, styles.searchBtn]}>
+          <ServiceSearch
+            pickedDate={pickedDate}
+            setPickedDate={setPickedDate}
+          />
+          <TouchableOpacity
+            style={[btnStyles.btnBlue, styles.searchBtn]}
+            onPress={() => GetServiceLists()}>
             <Text
               style={[typoStyles.fw900, typoStyles.textWhite, typoStyles.fs14]}>
               검색
@@ -94,17 +115,31 @@ const ServiceHistory = ({navigation}) => {
           </TouchableOpacity>
         </View>
         <View>
-          <ServiceHistoryBlock
-            date={'2021.10.20'}
-            type={'네츠 휠체어 플러스'}
-            goNext={navigation}
-            goNext={() => navigation.navigate('ServiceDetail')}
-          />
-          <ServiceHistoryBlock
-            date={'2021.10.22'}
-            type={'네츠 휠체어 플러스'}
-            goNext={() => navigation.navigate('ServiceDetail')}
-          />
+          {ing
+            ? serviceIng != [] &&
+              serviceIng?.map((data, i) => {
+                const detailId = data.service_id;
+                return (
+                  <ServiceHistoryBlock
+                    data={data}
+                    goNext={() =>
+                      navigation.navigate(`ServiceDetail`, {detailId})
+                    }
+                  />
+                );
+              })
+            : serviceComp != [] &&
+              serviceComp?.map((data, i) => {
+                const detailId = data?.service_id;
+                return (
+                  <ServiceHistoryBlock
+                    data={data}
+                    goNext={() =>
+                      navigation.navigate(`ServiceDetail`, {detailId})
+                    }
+                  />
+                );
+              })}
         </View>
       </ScrollView>
     </CommonLayout>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -11,7 +11,7 @@ import {btnStyles} from '../../common/button';
 import typoStyles from '../../../assets/fonts/typography';
 import ServiceBlock from '../serviceBlock';
 
-export const CustomerProfile = ({name, addr, type}) => {
+export const CustomerProfile = ({name, addr, type, tel}) => {
   const styles = StyleSheet.create({
     infoBlock: {
       width: '100%',
@@ -58,7 +58,7 @@ export const CustomerProfile = ({name, addr, type}) => {
       </View>
       {type == 2 ? (
         <TouchableOpacity
-          onPress={() => Linking.openURL(`tel:02-0000-0000`)}
+          onPress={() => Linking.openURL(`tel:${tel}`)}
           style={[btnStyles.btnBlue, styles.btn]}>
           <Text
             style={[typoStyles.fs14, typoStyles.fw700, typoStyles.textWhite]}>
@@ -101,12 +101,53 @@ export const ManagerComment = ({comment}) => {
   );
 };
 
-export const ServiceInfo = ({num}) => {
+const pickCategory = (data, pick) => {
+  const categories = {
+    1: ['서비스 번호', data?.service_id],
+    2: ['픽업 주소', data?.pickup_address],
+    3: ['병원 주소', data?.hos_address],
+    4: ['귀가 주소', data?.drop_address],
+    5: ['픽업 예정 시간', data?.pickup_time.substring(0, 5)],
+    6: ['희망 병원 도착 시간', data?.hos_arrival_time.substring(0, 5)],
+    7: ['희망 귀가 출발 시간', data?.hos_depart_time.substring(0, 5)],
+    8: ['진료/검사 예약 시간', data?.hos_care_time.substring(0, 5)],
+    9: ['고객 이름', data?.user_name],
+    10: ['고객 전화번호', data?.user_phone],
+    11: ['동행 매니저 이름', data?.gowithumanager],
+    12: ['동행 매니저 전화번호', data?.gowithumanager_phone],
+    // 12: ['동행 매니저 전화번호', '010-2222-1111'],
+  };
+
+  const categoryKey = Object.keys(categories);
+  for (let i = 0; i < categoryKey.length; i++) {
+    if (categoryKey[i] == pick) {
+      return categories[categoryKey[i]];
+    }
+  }
+};
+
+const CaseInfo = (dispatchCase) => {
+  switch (dispatchCase) {
+    case 1: //집-병원
+      return [1, 2, 3, 5, 6, 8, 9, 10];
+    case 2: //병원-집
+      return [1, 3, 4, 7, 9, 10];
+    case 3: //집-집 (배차 1번, 2시간 이하)
+      return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    case 4: //왕복2시간이상
+      return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  }
+};
+
+export const ServiceInfo = ({num, data}) => {
   const styles = StyleSheet.create({
     title: {
       marginBottom: 17,
     },
   });
+
+  const infos = CaseInfo(data?.dispatch_case);
+
   return (
     <View>
       {num == 1 ? (
@@ -122,20 +163,14 @@ export const ServiceInfo = ({num}) => {
           서비스 정보
         </Text>
       )}
-      <ServiceInfoOneLine title={'서비스 번호'} value={'21102323921'} />
-      <ServiceInfoOneLine title={'픽업 예정 시간'} value={'11:00'} />
-      <ServiceInfoOneLine title={'픽업 주소'} value={'성북구 길음동 11-15'} />
-      <ServiceInfoOneLine title={'병원'} value={'서울백병원'} />
-      <ServiceInfoOneLine title={'희망 병원 도착 시간'} value={'12:00'} />
-      <ServiceInfoOneLine title={'진료/검사 예약 시간'} value={'12:30'} />
-      <ServiceInfoOneLine title={'귀가 출발 시간'} value={'14:00'} />
-      <ServiceInfoOneLine title={'고객 이름'} value={'홍길동'} />
-      <ServiceInfoOneLine title={'고객 전화번호'} value={'010-0000-2222'} />
-      <ServiceInfoOneLine title={'동행 매니저'} value={'김강빈'} />
-      <ServiceInfoOneLine
-        title={'동행 매니저 전화번호'}
-        value={'010-2221-5555'}
-      />
+
+      {infos != undefined &&
+        infos?.map((infoData, i) => {
+          const result = pickCategory(data, infoData);
+          return (
+            <ServiceInfoOneLine title={result[0]} value={result[1]} key={i} />
+          );
+        })}
     </View>
   );
 };
@@ -147,6 +182,9 @@ const ServiceInfoOneLine = ({title, value}) => {
       marginBottom: 5,
     },
     title: {
+      width: '50%',
+    },
+    value: {
       width: '50%',
     },
   });

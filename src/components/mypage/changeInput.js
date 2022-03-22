@@ -111,8 +111,16 @@ const ChangeInputWithBtn = ({title, place1, Text1, setText1, btntext}) => {
           placeholder={place1}
           placeholderTextColor={'#DAD8E0'}
           autoCapitalize="none"
-          value={Text1}
-          onChangeText={setText1}
+          // value={text}
+          defaultValue={text}
+          // onChange={(e) => {
+          //   e.persist();
+          //   console.log('e===', e.target);
+          //   setText((prev) => ({...prev, [propName]: e.target.value}));
+          // }}
+          onChangeText={(text) =>
+            setText((prev) => ({...prev, [propName]: text}))
+          }
         />
         <View style={styles.btnset}>
           <TouchableNativeFeedback>

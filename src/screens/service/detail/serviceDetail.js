@@ -13,9 +13,10 @@ import {ServiceDetailProgress} from '../../../components/service/detail/serviceD
 import MapView from '../../../components/service/detail/MapView';
 import CustomBtn, {btnStyles} from '../../../components/common/button';
 import {ServiceTimePicker} from '../../../components/service/detail/servicePicker';
-import RecodeTimeAPI from '../../../api/recodeTime';
+import RecodeTimeAPI from '../../../api/service/recodeTime';
+import GetServiceDetail from '../../../api/service/getServiceDetail';
 
-const ServiceDetail = ({navigation}) => {
+const ServiceDetail = ({navigation, route}) => {
   const styles = StyleSheet.create({
     block1: {
       width: '100%',
@@ -45,16 +46,33 @@ const ServiceDetail = ({navigation}) => {
       marginTop: 15,
     },
   });
+  const {detailId} = route.params;
+  const [detail, setDetail] = useState();
+  const [pro, setPro] = useState();
+  // useEffect(() => {
+  //   GetServiceProgresses();
+  // }, []);
+
+  // useEffect(() => {
+  //   if (pro.service_state > 4) {
+  //   }
+  // }, [pro]);
+
+  console.log(detailId);
+
+  const GetDetailInfos = async () => {
+    setDetail(await GetServiceDetail(detailId));
+  };
+
+  useEffect(() => {
+    GetDetailInfos();
+  }, [detailId]);
+
+  useEffect(() => {
+    console.log('detail?나는', detail);
+  }, [detail]);
 
   const [pickTime, setPickTime] = useState('');
-  const [sendTime, setSendTime] = useState([
-    {id: 1, time: '', text: '차량출발'},
-    {id: 2, time: '', text: '픽업완료'},
-    {id: 3, time: '', text: '병원도착'},
-    {id: 4, time: '', text: '귀가차량\n병원도착'},
-    {id: 5, time: '', text: '귀가출발'},
-    {id: 6, time: '', text: '서비스종료'},
-  ]);
   const [data, setData] = useState({
     service_id: '22022611018',
     recodeTime: {
@@ -62,7 +80,6 @@ const ServiceDetail = ({navigation}) => {
       minutes: 0,
     },
   });
-  let i = 1;
 
   useEffect(() => {
     setData({
@@ -78,11 +95,6 @@ const ServiceDetail = ({navigation}) => {
   useEffect(() => {
     console.log('data================', data);
   }, [data]);
-
-  useEffect(() => {
-    console.log('send time========', sendTime);
-    console.log('sendtime[0]', sendTime[0]?.time);
-  }, [sendTime]);
 
   return (
     <CommonLayout>
@@ -129,62 +141,61 @@ const ServiceDetail = ({navigation}) => {
             onPress={() => navigation.push('RequiredDocument')}
           />
         </ServiceBlock>
-
         <CustomerProfile
-          name={'홍길동'}
-          addr={'성북구 길음동 11-30'}
+          name={detail?.service?.user_name}
+          addr={detail?.service?.pickup_address}
+          tel={detail?.service?.user_phone}
           type={2}
         />
-        <ServiceDetailProgress time={sendTime} />
-        <ServiceBlock>
-          <Text
-            style={[
-              typoStyles.fs14,
-              typoStyles.fw700,
-              typoStyles.textExplain,
-              {marginBottom: 15},
-            ]}>
-            완료한 시간을 설정해주세요.
-          </Text>
-          <ServiceTimePicker setTime={setPickTime} />
-          <CustomBtn
-            viewStyle={[btnStyles.btnBlue, styles.setTimeBtn]}
-            textStyle={[
-              typoStyles.fs14,
-              typoStyles.fw700,
-              typoStyles.textWhite,
-            ]}
-            text={'클릭해서 이 시간으로 저장하기'}
-            onPress={async () => {
-              // setSendTime((sendTime) => [...sendTime.i, {time: pickTime}]);
-              setSendTime(
-                sendTime.map((it) =>
-                  it.id === i ? {...it, time: pickTime} : it,
-                ),
-              );
+        <ServiceDetailProgress
+          state={detail?.service_state}
+          time={detail?.service_state_time}
+        />
 
-              i = i + 1;
-              const res = await RecodeTimeAPI(data);
-              if (res.status === 200) {
-                console.log('성공');
-              } else {
-                console.log('실패');
-              }
-            }}
-          />
-          <Text
-            style={[
-              typoStyles.fs12,
-              typoStyles.fwRegular,
-              typoStyles.textPrimary,
-              {marginTop: 5, alignSelf: 'center'},
-            ]}>
-            *시간이 잘 못 입력 되었을 경우 관리자에게 문의해주세요.
-          </Text>
-        </ServiceBlock>
-        <ManagerComment comment={'문 앞에 도착하면 연락드리겠습니다!'} />
+        {detail?.service_state != 6 && (
+          <ServiceBlock>
+            <Text
+              style={[
+                typoStyles.fs14,
+                typoStyles.fw700,
+                typoStyles.textExplain,
+                {marginBottom: 15},
+              ]}>
+              완료한 시간을 설정해주세요.
+            </Text>
+            <ServiceTimePicker setTime={setPickTime} />
+            <CustomBtn
+              viewStyle={[btnStyles.btnBlue, styles.setTimeBtn]}
+              textStyle={[
+                typoStyles.fs14,
+                typoStyles.fw700,
+                typoStyles.textWhite,
+              ]}
+              text={'클릭해서 이 시간으로 저장하기'}
+              onPress={async () => {
+                const res = await RecodeTimeAPI(data);
+                if (res.status === 200) {
+                  console.log('성공');
+                } else {
+                  console.log('실패');
+                }
+                GetDetailInfos();
+              }}
+            />
+
+            <Text
+              style={[
+                typoStyles.fs12,
+                typoStyles.fwRegular,
+                typoStyles.textPrimary,
+                {marginTop: 5, alignSelf: 'center'},
+              ]}>
+              *시간이 잘못 입력 되었을 경우 관리자에게 문의해주세요.
+            </Text>
+          </ServiceBlock>
+        )}
         <ServiceBlock>
-          <ServiceInfo />
+          <ServiceInfo num={2} data={detail?.service} />
         </ServiceBlock>
       </ScrollView>
     </CommonLayout>
