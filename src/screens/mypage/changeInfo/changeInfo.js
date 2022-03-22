@@ -5,10 +5,11 @@ import {
   Text,
   TouchableNativeFeedback,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import typoStyles from '../../../assets/fonts/typography';
 import CommonLayout from '../../../components/common/layout';
-import {btnStyles} from '../../../components/common/button';
+import CustomBtn, {btnStyles} from '../../../components/common/button';
 import {
   ChangeInput,
   ChangeInputWithBtn,
@@ -20,6 +21,7 @@ import GetManagerInfo from '../../../api/mypage/getManagerInfo';
 import ChangeManagerInfo from '../../../api/mypage/ChangeManagerInfo';
 import CheckEmailDupAPI from '../../../api/mypage/checkEmailDup';
 import {EmailValidation} from '../../../utils/validation';
+import CheckPhoneAPI from '../../../api/mypage/checkPhone';
 
 const styles = StyleSheet.create({
   background: {
@@ -47,10 +49,10 @@ const styles = StyleSheet.create({
 
 const ChangeInfo = () => {
   const [managerInfo, setManagerInfo] = useState({
-    profileImg: '',
+    profileImg: '1',
     introduce: '',
     notice: '',
-    noticeImg: '',
+    noticeImg: '1',
     name: '',
     email: '',
     phone: '',
@@ -69,14 +71,18 @@ const ChangeInfo = () => {
   });
 
   const [img, setImg] = useState('');
+  const [dis, setDis] = useState(true);
 
   const GetManagerInfos = async () => {
     const res = await GetManagerInfo();
-    setManagerInfo(...managerInfo, {
-      introduce: res.intro,
-      notice: res.notice,
-      name: res.name,
-      phone: res.phone,
+    console.log('res in changeinfo==', res);
+    setManagerInfo({
+      ...managerInfo,
+      introduce: res.info.intro,
+      notice: res.info.notice,
+      name: res.info.name,
+      email: res.info.id,
+      phone: res.info.phone,
       certificate: res.certificate,
     });
   };
@@ -88,30 +94,49 @@ const ChangeInfo = () => {
   useEffect(() => {
     const managerInfoKey = Object.keys(managerInfo);
     console.log('managerInfo change==', managerInfo);
+    console.log('receive==', managerInfo.receiveCheckPhoneNum);
     if (!EmailValidation(managerInfo.email)) {
       setCheckErr({...checkErr, errMsg: '이메일 형식이 맞지 않습니다.'});
+      setDis(true);
     } else if (!checkErr.checkEmail) {
       setCheckErr({...checkErr, errMsg: '이메일 중복확인을 진행해주세요.'});
+      setDis(true);
     } else if (!checkErr.checkEmailSuccess) {
       setCheckErr({...checkErr, errMsg: '중복된 이메일입니다.'});
+      setDis(true);
     } else if (!PhoneValidation(managerInfo.phone)) {
       setCheckErr({
         ...checkErr,
         errMsg: '휴대전화 번호 형식이 맞지 않습니다.',
       });
+      setDis(true);
     } else if (!checkErr.checkPhone) {
       setCheckErr({...checkErr, errMsg: '휴대전화 인증을 진행해주세요.'});
+      setDis(true);
     } else if (managerInfo.checkPhoneNum != managerInfo.receiveCheckPhoneNum) {
       setCheckErr({...checkErr, errMsg: '인증 번호가 일치하지 않습니다.'});
+      setDis(true);
     } else if (managerInfo.checkPhoneNum == managerInfo.receiveCheckPhoneNum) {
       setCheckErr({...checkErr, checkPhoneSuccess: true});
+      setDis(true);
     } else {
       setCheckErr({...checkErr, errMsg: ''});
+      setDis(false);
     }
     for (let i = 0; i < managerInfoKey.length; i++) {
       if (managerInfo[managerInfoKey[i]] == '') {
+        if (
+          managerInfoKey[i] == 'noticeImg' ||
+          managerInfoKey[i] == 'profileImg' ||
+          managerInfoKey[i] == 'certificate'
+        )
+          continue;
         setCheckErr({...checkErr, errMsg: '빈칸을 모두 채워주세요.'});
+        setDis(true);
         break;
+      } else {
+        setCheckErr({...checkErr, errMsg: ''});
+        setDis(false);
       }
     }
   }, [managerInfo]);
@@ -184,7 +209,6 @@ const ChangeInfo = () => {
                 setText={setManagerInfo}
                 propName={'checkPhoneNum'}
               />
-
               {/* <ChangeInput
                 title={'자격증1'}
                 place1={'자격증 이름'}
@@ -212,6 +236,27 @@ const ChangeInfo = () => {
                 typoStyles.fwRegular,
                 typoStyles.textPrimary,
               ]}>
+              {checkErr.errMsg}
+            </Text>
+            <CustomBtn
+              viewStyle={[btnStyles.btnBlue, styles.savebtn]}
+              textStyle={[
+                typoStyles.fs20,
+                typoStyles.fwBold,
+                typoStyles.textWhite,
+              ]}
+              viewStyleDisabled={[btnStyles.btnDisable, styles.savebtn]}
+              textStyleDisabled={[
+                typoStyles.fs20,
+                typoStyles.fwBold,
+                typoStyles.textWhite,
+              ]}
+              text={'변경 정보 저장'}
+              disabled={dis}
+            />
+            {/* <TouchableOpacity
+              onPress={() => ChangeManagerInfo(managerInfo)}
+              disabled={dis}>
               {managerInfo.errMsg}
             </Text>
             <TouchableNativeFeedback
@@ -226,7 +271,7 @@ const ChangeInfo = () => {
                   변경 정보 저장
                 </Text>
               </View>
-            </TouchableNativeFeedback>
+            </TouchableOpacity> */}
           </View>
         </ScrollView>
       </KeyboardAwareScrollView>
