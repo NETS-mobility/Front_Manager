@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   View,
   Text,
   TouchableNativeFeedback,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import typoStyles from '../../../assets/fonts/typography';
 import CommonLayout from '../../../components/common/layout';
@@ -21,7 +22,6 @@ import ChangeManagerInfo from '../../../api/mypage/ChangeManagerInfo';
 import CheckEmailDupAPI from '../../../api/mypage/checkEmailDup';
 import {EmailValidation} from '../../../utils/validation';
 import CheckPhoneAPI from '../../../api/mypage/checkPhone';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const styles = StyleSheet.create({
   background: {
@@ -159,39 +159,48 @@ const ChangeInfo = () => {
               <ChangeProfileImage img={img} setImg={setImg} />
               <ChangeBigInput
                 title={'자기소개'}
-                place1={'안녕하세요'}
-                Text1={introduce}
-                setText1={setIntroduce}
+                text={managerInfo.introduce}
+                setText={setManagerInfo}
+                propName={'introduce'}
                 image={false}
               />
               <ChangeBigInput
                 title={'전달사항'}
-                place1={
-                  '네츠 매니저 김지수입니다.\n예약 30분 전 미리 연락 드리겠습니다:)\n번호 010-0000-0000입니다.'
-                }
-                Text1={introduce}
-                setText1={setIntroduce}
+                text={managerInfo.notice}
+                setText={setManagerInfo}
                 image={true}
+                propName={'notice'}
               />
               <ChangeInput
                 title={'이름'}
                 place1={'이름'}
-                Text1={name}
-                setText1={setName}
+                text={managerInfo.name}
+                setText={setManagerInfo}
+                propName={'name'}
               />
               <ChangeInputWithBtn
                 title={'이메일'}
                 place1={'이메일'}
-                Text1={email}
-                setText1={setEmail}
+                text={managerInfo.email}
+                setText={setManagerInfo}
                 btntext={'중복확인'}
+                propName={'email'}
+                onPress={() => {
+                  CheckEmailDupAPI(managerInfo.email, checkErr, setCheckErr);
+                  setCheckErr({...checkErr, checkEmail: true});
+                }}
               />
               <ChangeInputWithBtn
                 title={'휴대전화'}
                 place1={'휴대전화'}
-                Text1={phone}
-                setText1={setPhone}
+                text={managerInfo.phone}
+                setText={setManagerInfo}
                 btntext={'인증번호전송'}
+                propName={'phone'}
+                onPress={() => {
+                  CheckPhoneAPI(managerInfo.phone, managerInfo, setManagerInfo);
+                  setCheckErr({...checkErr, checkPhone: true});
+                }}
               />
               <ChangeInput
                 title={'인증번호'}
@@ -200,6 +209,24 @@ const ChangeInfo = () => {
                 setText={setManagerInfo}
                 propName={'checkPhoneNum'}
               />
+              {/* <ChangeInput
+                title={'자격증1'}
+                place1={'자격증 이름'}
+                text={certificate1}
+                setText1={setCertificate1}
+              />
+              <ChangeInput
+                title={'자격증2'}
+                place1={'자격증 이름'}
+                text={certificate2}
+                setText1={setCertificate2}
+              />
+              <ChangeInput
+                title={'자격증3'}
+                place1={'자격증 이름'}
+                text={certificate3}
+                setText1={setCertificate3}
+              /> */}
             </View>
           </View>
           <View style={styles.wrapbtn}>
@@ -230,6 +257,10 @@ const ChangeInfo = () => {
             {/* <TouchableOpacity
               onPress={() => ChangeManagerInfo(managerInfo)}
               disabled={dis}>
+              {managerInfo.errMsg}
+            </Text>
+            <TouchableNativeFeedback
+              onPress={() => ChangeManagerInfo(managerInfo)}>
               <View style={[btnStyles.btnDisable, styles.savebtn]}>
                 <Text
                   style={[

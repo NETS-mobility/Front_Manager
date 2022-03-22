@@ -1,5 +1,5 @@
-import React from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import React, {useEffect} from 'react';
+import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import typoStyles from '../../assets/fonts/typography';
 const styles = StyleSheet.create({
   notiBlock: {
