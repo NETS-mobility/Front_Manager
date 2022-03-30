@@ -48,8 +48,12 @@ LocaleConfig.locales['ko'] = {
 };
 LocaleConfig.defaultLocale = 'ko';
 
-const ServiceSearch = ({pickedDate, setPickedDate}) => {
-  const [showCalendar, setShowCalendar] = useState(false);
+const ServiceSearch = ({
+  pickedDate,
+  setPickedDate,
+  showCalendar,
+  setShowCalendar,
+}) => {
   return (
     <>
       <TouchableOpacity
