@@ -1,8 +1,10 @@
 import React, {useState, useMemo, createContext, useEffect} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {GetToken} from './src/utils/controlToken';
 import BottomTab from './src/navigation/common/bottomTab';
+import {GetToken} from './src/utils/controlToken';
 import axios from 'axios';
+import {NavigationContainer} from '@react-navigation/native';
+import LoginNavigator from './src/navigation/login/login';
 // axios.defaults.baseURL = 'http://10.0.2.2:5000';
 axios.defaults.baseURL = 'http://35.197.107.190:5000';
 
@@ -25,17 +27,44 @@ const App = () => {
   return (
     <RefreshContext.Provider value={value}>
       <View style={styles.block}>
-        <BottomTab />
+        {refresh == null ? (
+          <NavigationContainer>
+            <LoginNavigator />
+          </NavigationContainer>
+        ) : (
+          // <NavigationContainer>
+          //   <Stack.Navigator
+          //     screenOptions={{
+          //       tabBarActiveTintColor: '#19b7cd',
+          //       tabBarStyle: {
+          //         height: 65,
+          //         position: 'absolute',
+          //         bottom: 0,
+          //       },
+          //       tabBarLabelStyle: {
+          //         fontSize: 13,
+          //       },
+          //     }}>
+          //     <Tab.Screen
+          //       name="홈"
+          //       component={LoginNavigator}
+          //       options={{
+          //         headerShown: false,
+          //         tabBarIcon: ({color}) => (
+          //           <Icon name="home" color={color} size={35} />
+          //         ),
+          //       }}
+          //     />
+          //   </Stack.Navigator>
+          // </NavigationContainer>
+          <BottomTab />
+        )}
       </View>
     </RefreshContext.Provider>
   );
 };
 
 const styles = StyleSheet.create({
-  // map: {
-  //   flex: 1,
-  //   backgroundColor: '#fff',
-  // },
   block: {
     flex: 1,
     backgroundColor: '#fff',

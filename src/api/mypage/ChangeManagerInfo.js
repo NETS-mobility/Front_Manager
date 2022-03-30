@@ -11,6 +11,7 @@ const ChangeManagerInfo = async (data) => {
       intro: data.introduce,
       notice: data.notice,
     });
+    console.log('res in changeinfo api========', res);
     return res;
   } catch (err) {
     console.log('err in changemanagerinfo = ', err.response);

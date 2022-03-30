@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text, ScrollView, Image} from 'react-native';
 import typoStyles from '../../../assets/fonts/typography';
 import CommonLayout from '../../../components/common/layout';
-import {btnStyles} from '../../../components/common/button';
+import CustomBtn, {btnStyles} from '../../../components/common/button';
 import {
   ChangeInput,
   ChangeInputWithBtn,
@@ -45,7 +45,7 @@ const ChangeInfo = ({navigation}) => {
   const [managerInfo, setManagerInfo] = useState({
     introduce: '',
     notice: '',
-    noticeImg: '',
+    noticeImg: '1',
     name: '',
     email: '',
     phone: '',
@@ -90,24 +90,31 @@ const ChangeInfo = ({navigation}) => {
     console.log('receive==', managerInfo.receiveCheckPhoneNum);
     if (!EmailValidation(managerInfo.email)) {
       setCheckErr({...checkErr, errMsg: '이메일 형식이 맞지 않습니다.'});
+      setDis(true);
     } else if (!checkErr.checkEmail) {
       setCheckErr({...checkErr, errMsg: '이메일 중복확인을 진행해주세요.'});
+      setDis(true);
     } else if (!checkErr.checkEmailSuccess) {
       setCheckErr({...checkErr, errMsg: '중복된 이메일입니다.'});
+      setDis(true);
     } else if (!PhoneValidation(managerInfo.phone)) {
       setCheckErr({
         ...checkErr,
         errMsg: '휴대전화 번호 형식이 맞지 않습니다.',
       });
+      setDis(true);
     } else if (!checkErr.checkPhone) {
       setCheckErr({...checkErr, errMsg: '휴대전화 인증을 진행해주세요.'});
+      setDis(true);
     } else if (managerInfo.checkPhoneNum != managerInfo.receiveCheckPhoneNum) {
       setCheckErr({...checkErr, errMsg: '인증 번호가 일치하지 않습니다.'});
+      setDis(true);
     } else if (managerInfo.checkPhoneNum == managerInfo.receiveCheckPhoneNum) {
       setCheckErr({...checkErr, checkPhoneSuccess: true});
       setDis(false);
     } else {
       setCheckErr({...checkErr, errMsg: ''});
+      setDis(false);
     }
     for (let i = 0; i < managerInfoKey.length; i++) {
       if (managerInfo[managerInfoKey[i]] == '') {
@@ -118,7 +125,11 @@ const ChangeInfo = ({navigation}) => {
         )
           continue;
         setCheckErr({...checkErr, errMsg: '빈칸을 모두 채워주세요.'});
+        setDis(true);
         break;
+      } else {
+        setCheckErr({...checkErr, errMsg: ''});
+        setDis(false);
       }
     }
   }, [managerInfo]);

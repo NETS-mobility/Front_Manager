@@ -6,7 +6,7 @@ import RestBlock from '../../components/home/restBlock';
 import GetTodayReserveList from '../../api/home/getTodayReserveList';
 import {NoticeBlock} from '../../components/home/noticeBlock';
 
-const Home = () => {
+const Home = ({navigation}) => {
   const styles = StyleSheet.create({
     img: {
       position: 'relative',
@@ -48,12 +48,12 @@ const Home = () => {
 
   const [res, setRes] = useState([]);
 
-  const test = async () => {
+  const GetHomeList = async () => {
     setRes(await GetTodayReserveList());
   };
 
   useEffect(() => {
-    test();
+    GetHomeList();
   }, []);
 
   useEffect(() => {
@@ -77,11 +77,8 @@ const Home = () => {
         {`네츠\n모빌리티`}
       </Text>
       <ScrollView>
-        <NoticeBlock data={res} />
+        <NoticeBlock data={res} navi={navigation} />
         <RestBlock />
-        <View style={styles.howTo}>
-          <Text style={styles.tempTxt}>이용안내 이미지</Text>
-        </View>
       </ScrollView>
     </CommonLayout>
   );
