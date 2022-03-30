@@ -1,11 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableNativeFeedback,
-  ScrollView,
-} from 'react-native';
+import {StyleSheet, View, Text, ScrollView, Image} from 'react-native';
 import typoStyles from '../../../assets/fonts/typography';
 import CommonLayout from '../../../components/common/layout';
 import {btnStyles} from '../../../components/common/button';
@@ -20,6 +14,8 @@ import GetManagerInfo from '../../../api/mypage/getManagerInfo';
 import ChangeManagerInfo from '../../../api/mypage/ChangeManagerInfo';
 import CheckEmailDupAPI from '../../../api/mypage/checkEmailDup';
 import {EmailValidation} from '../../../utils/validation';
+import CheckPhoneAPI from '../../../api/mypage/checkPhone';
+import UploadProfile from '../../../api/mypage/uploadProfile';
 
 const styles = StyleSheet.create({
   background: {
@@ -45,9 +41,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const ChangeInfo = () => {
+const ChangeInfo = ({navigation}) => {
   const [managerInfo, setManagerInfo] = useState({
-    profileImg: '',
     introduce: '',
     notice: '',
     noticeImg: '',
@@ -69,16 +64,21 @@ const ChangeInfo = () => {
   });
 
   const [img, setImg] = useState('');
+  const [dis, setDis] = useState(true);
+  const [imgName, setImgName] = useState('');
 
   const GetManagerInfos = async () => {
     const res = await GetManagerInfo();
-    setManagerInfo(...managerInfo, {
-      introduce: res.intro,
-      notice: res.notice,
-      name: res.name,
-      phone: res.phone,
+    setManagerInfo({
+      ...managerInfo,
+      introduce: res.info.intro,
+      notice: res.info.notice,
+      name: res.info.name,
+      email: res.info.id,
+      phone: res.info.phone,
       certificate: res.certificate,
     });
+    setImg(`http://35.197.107.190:5000/public${res.url_profile}`);
   };
 
   useEffect(() => {
@@ -87,7 +87,7 @@ const ChangeInfo = () => {
 
   useEffect(() => {
     const managerInfoKey = Object.keys(managerInfo);
-    console.log('managerInfo change==', managerInfo);
+    console.log('receive==', managerInfo.receiveCheckPhoneNum);
     if (!EmailValidation(managerInfo.email)) {
       setCheckErr({...checkErr, errMsg: '이메일 형식이 맞지 않습니다.'});
     } else if (!checkErr.checkEmail) {
@@ -105,11 +105,18 @@ const ChangeInfo = () => {
       setCheckErr({...checkErr, errMsg: '인증 번호가 일치하지 않습니다.'});
     } else if (managerInfo.checkPhoneNum == managerInfo.receiveCheckPhoneNum) {
       setCheckErr({...checkErr, checkPhoneSuccess: true});
+      setDis(false);
     } else {
       setCheckErr({...checkErr, errMsg: ''});
     }
     for (let i = 0; i < managerInfoKey.length; i++) {
       if (managerInfo[managerInfoKey[i]] == '') {
+        if (
+          managerInfoKey[i] == 'noticeImg' ||
+          managerInfoKey[i] == 'certificate' ||
+          managerInfoKey[i] == 'receiveCheckPhoneNum'
+        )
+          continue;
         setCheckErr({...checkErr, errMsg: '빈칸을 모두 채워주세요.'});
         break;
       }
@@ -131,7 +138,11 @@ const ChangeInfo = () => {
           </View>
           <View>
             <View style={styles.setcenter}>
-              <ChangeProfileImage img={img} setImg={setImg} />
+              <ChangeProfileImage
+                img={img}
+                setImg={setImg}
+                setImgName={setImgName}
+              />
               <ChangeBigInput
                 title={'자기소개'}
                 text={managerInfo.introduce}
@@ -174,6 +185,9 @@ const ChangeInfo = () => {
                 propName={'phone'}
                 onPress={() => {
                   CheckPhoneAPI(managerInfo.phone, managerInfo, setManagerInfo);
+                  //========================================================= false로 바꿔야 함. true는 테스트용 ===========================================================
+                  // setCheckErr({...checkErr, checkPhone: false});
+                  //========================================================= false로 바꿔야 함. true는 테스트용 ===========================================================
                   setCheckErr({...checkErr, checkPhone: true});
                 }}
               />
@@ -184,25 +198,6 @@ const ChangeInfo = () => {
                 setText={setManagerInfo}
                 propName={'checkPhoneNum'}
               />
-
-              {/* <ChangeInput
-                title={'자격증1'}
-                place1={'자격증 이름'}
-                text={certificate1}
-                setText1={setCertificate1}
-              />
-              <ChangeInput
-                title={'자격증2'}
-                place1={'자격증 이름'}
-                text={certificate2}
-                setText1={setCertificate2}
-              />
-              <ChangeInput
-                title={'자격증3'}
-                place1={'자격증 이름'}
-                text={certificate3}
-                setText1={setCertificate3}
-              /> */}
             </View>
           </View>
           <View style={styles.wrapbtn}>
@@ -212,21 +207,29 @@ const ChangeInfo = () => {
                 typoStyles.fwRegular,
                 typoStyles.textPrimary,
               ]}>
-              {managerInfo.errMsg}
+              {checkErr.errMsg}
             </Text>
-            <TouchableNativeFeedback
-              onPress={() => ChangeManagerInfo(managerInfo)}>
-              <View style={[btnStyles.btnDisable, styles.savebtn]}>
-                <Text
-                  style={[
-                    typoStyles.fs20,
-                    typoStyles.fwBold,
-                    typoStyles.textWhite,
-                  ]}>
-                  변경 정보 저장
-                </Text>
-              </View>
-            </TouchableNativeFeedback>
+            <CustomBtn
+              viewStyle={[btnStyles.btnBlue, styles.savebtn]}
+              textStyle={[
+                typoStyles.fs20,
+                typoStyles.fwBold,
+                typoStyles.textWhite,
+              ]}
+              viewStyleDisabled={[btnStyles.btnDisable, styles.savebtn]}
+              textStyleDisabled={[
+                typoStyles.fs20,
+                typoStyles.fwBold,
+                typoStyles.textWhite,
+              ]}
+              text={'변경 정보 저장'}
+              disabled={dis}
+              onPress={async () => {
+                await ChangeManagerInfo(managerInfo);
+                await UploadProfile(img, imgName);
+                navigation.pop();
+              }}
+            />
           </View>
         </ScrollView>
       </KeyboardAwareScrollView>
