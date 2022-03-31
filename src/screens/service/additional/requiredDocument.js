@@ -4,11 +4,12 @@ import {StyleSheet, View, Text} from 'react-native';
 import typoStyles from '../../../assets/fonts/typography';
 import CustomBtn from '../../../components/common/button';
 import {btnStyles} from '../../../components/common/button';
-import ImageSubmit from '../../../components/common/imageSubmit';
+import UploadDocument from '../../../components/service/detail/uploadDoc';
 import ImageSubmitAPI from '../../../api/imageSubmit';
 
 const RequiredDocument = ({navigation, route}) => {
   const [img, setImg] = useState('');
+  const [imgName, setImgName] = useState('');
   const {detailId} = route.params;
 
   //========================================================================================
@@ -76,7 +77,11 @@ const RequiredDocument = ({navigation, route}) => {
             {`입니다.\n고객이 지참한 서류를 촬영하여 첨부해주세요.`}
           </Text>
           <View style={styles.submitImgSection}>
-            <ImageSubmit img={img} setImg={setImg} />
+            <UploadDocument
+              setImg={setImg}
+              imgName={imgName}
+              setImgName={setImgName}
+            />
           </View>
         </View>
 
@@ -91,7 +96,7 @@ const RequiredDocument = ({navigation, route}) => {
             viewStyleDisabled={[btnStyles.btnDisable, styles.submitBtn]}
             text={'제출 완료'}
             onPress={() => {
-              ImageSubmitAPI(detailId, img);
+              ImageSubmitAPI(detailId, img, imgName);
               // navigation.navigate('ServiceDetail');
             }}
           />

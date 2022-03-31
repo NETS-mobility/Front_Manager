@@ -4,10 +4,11 @@ import {StyleSheet, View, Text, TextInput} from 'react-native';
 import typoStyles from '../../../assets/fonts/typography';
 import CustomBtn from '../../../components/common/button';
 import {btnStyles} from '../../../components/common/button';
-import ImageSubmit from '../../../components/common/imageSubmit';
+import UploadDocument from '../../../components/service/detail/uploadDoc';
 
 const EditNotice = () => {
   const [img, setImg] = useState('');
+  const [imgName, setImgName] = useState('');
   const styles = StyleSheet.create({
     block1: {
       width: '100%',
@@ -65,7 +66,11 @@ const EditNotice = () => {
       <View style={styles.contents}>
         <TextInput style={[styles.multiInput]} multiline={true} />
         <View style={styles.submitImgSection}>
-          <ImageSubmit img={img} setImg={setImg} />
+          <UploadDocument
+            setImg={setImg}
+            imgName={imgName}
+            setImgName={setImgName}
+          />
         </View>
         <CustomBtn
           viewStyle={[btnStyles.btnBlue, styles.submitBtn]}
