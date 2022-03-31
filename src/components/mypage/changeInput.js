@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingHorizontal: 15,
     paddingVertical: 15,
+    color: 'black',
   },
   detailout: {
     overflow: 'hidden',
