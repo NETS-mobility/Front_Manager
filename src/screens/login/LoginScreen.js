@@ -13,6 +13,8 @@ import {LoginBtn} from '../../components/login/LoginBtn';
 import typoStyles from '../../assets/fonts/typography';
 import LoginAPI from '../../api/login';
 import {RefreshContext} from '../../../App';
+import AsyncStorage from '@react-native-community/async-storage';
+// import {TOKEN} from '../../..';
 
 const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
@@ -53,7 +55,11 @@ const LoginScreen = ({navigation}) => {
           <LoginBtn
             btnName={'로그인'}
             navWhere={async () => {
-              const res = await LoginAPI({id: email, password: pass});
+              const res = await LoginAPI({
+                id: email,
+                password: pass,
+                device_token: await AsyncStorage.getItem('deviceToken'),
+              });
               if (res.success === true) {
                 if (res.checkPhone == '최초 로그인 휴대폰 인증 필요') {
                   navigation.navigate('AuthScreen');
