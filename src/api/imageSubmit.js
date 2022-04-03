@@ -10,7 +10,7 @@ const ImageSubmitAPI = async (service_id, img, imgName) => {
   // datas.append('json', JSON.stringify({jwtToken: await GetToken()}));
 
   try {
-    await fetch(
+    const response = await fetch(
       `http://35.197.107.190:5000/manager/service/serviceDetail/${service_id}/submitDoc`,
       {
         method: 'POST',
@@ -19,7 +19,7 @@ const ImageSubmitAPI = async (service_id, img, imgName) => {
     )
       .then((res) => res)
       .catch((err) => err);
-    return res;
+    return response;
   } catch (err) {
     return err;
   }

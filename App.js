@@ -1,11 +1,12 @@
 import React, {useState, useMemo, createContext, useEffect} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {Alert, StyleSheet, View} from 'react-native';
 import BottomTab from './src/navigation/common/bottomTab';
 import {GetToken} from './src/utils/controlToken';
 import axios from 'axios';
 import {NavigationContainer} from '@react-navigation/native';
 import LoginNavigator from './src/navigation/login/login';
 import messaging from '@react-native-firebase/messaging';
+import PushNotification from 'react-native-push-notification';
 axios.defaults.baseURL = 'http://35.197.107.190:5000';
 
 export const RefreshContext = createContext({
@@ -20,12 +21,19 @@ const App = () => {
     await GetToken().then((r) => setRefresh(r));
   };
 
-  messaging().setBackgroundMessageHandler(async (remoteMessage) => {
-    console.log('Message handled in the background!', remoteMessage);
-  });
-
   useEffect(() => {
     mainR();
+    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+      PushNotification.localNotification({
+        message: remoteMessage.data.body,
+        title: remoteMessage.data.title,
+        // bigPictureUrl: remoteMessage.notification.android.imageUrl,
+        // smallIcon: remoteMessage.notification.android.imageUrl,
+      });
+      // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+      // PushNotification.invokeApp(remoteMessage);
+    });
+    return unsubscribe;
   }, []);
 
   return (

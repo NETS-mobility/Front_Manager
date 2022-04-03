@@ -1,10 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Image, Text, ScrollView} from 'react-native';
+import {View, StyleSheet, Image, Text, ScrollView, Button} from 'react-native';
 import typoStyles from '../../assets/fonts/typography';
+import {btnStyles} from '../../components/common/button';
 import CommonLayout from '../../components/common/layout';
 import RestBlock from '../../components/home/restBlock';
 import GetTodayReserveList from '../../api/home/getTodayReserveList';
 import {NoticeBlock} from '../../components/home/noticeBlock';
+import Alarm_test from '../../api/alarm_test';
+import CustomBtn from '../../components/common/button';
 
 const Home = ({navigation}) => {
   const styles = StyleSheet.create({
@@ -77,6 +80,14 @@ const Home = ({navigation}) => {
         {`네츠\n모빌리티`}
       </Text>
       <ScrollView>
+        <CustomBtn
+          viewStyle={btnStyles.btnBlue}
+          onPress={async () => {
+            console.log('눌름');
+            const res = await Alarm_test();
+            console.log('res', res);
+          }}
+        />
         <NoticeBlock data={res} navi={navigation} />
         <RestBlock />
       </ScrollView>

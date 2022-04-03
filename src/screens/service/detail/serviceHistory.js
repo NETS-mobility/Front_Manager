@@ -147,7 +147,7 @@ const ServiceHistory = ({navigation}) => {
                     key={i}
                     data={data}
                     goNext={() =>
-                      navigation.navigate(`ServiceDetail`, {detailId})
+                      navigation.navigate(`ServiceDetail`, {detailId: detailId})
                     }
                   />
                 );
@@ -159,7 +159,7 @@ const ServiceHistory = ({navigation}) => {
                   <ServiceHistoryBlock
                     data={data}
                     goNext={() =>
-                      navigation.navigate(`ServiceDetail`, {detailId})
+                      navigation.navigate(`ServiceDetail`, {detailId: detailId})
                     }
                   />
                 );
