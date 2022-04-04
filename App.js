@@ -7,9 +7,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import LoginNavigator from './src/navigation/login/login';
 import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification';
-import LocalNotification from './src/components/pushNoti/localPush';
-import RemotePushController from './src/components/pushNoti/remotePush';
-
 axios.defaults.baseURL = 'http://35.197.107.190:5000';
 
 export const RefreshContext = createContext({
@@ -42,7 +39,7 @@ const App = () => {
   return (
     <RefreshContext.Provider value={value}>
       <View style={styles.block}>
-        <RemotePushController />
+        {/* <RemotePushController /> */}
         {refresh == null ? (
           <NavigationContainer>
             <LoginNavigator />

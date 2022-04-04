@@ -5,84 +5,70 @@
 import {AppRegistry} from 'react-native';
 import App from './App';
 import {name as appName} from './app.json';
-import PushNotification from 'react-native-push-notification';
 import AsyncStorage from '@react-native-community/async-storage';
 import messaging from '@react-native-firebase/messaging';
 import app from '@react-native-firebase/app';
+import PushNotification, {Importance} from 'react-native-push-notification';
+
+PushNotification.createChannel(
+  {
+    channelId: 'fcm_fallback_notification_channel', // (required)
+    channelName: 'My channel', // (required)
+    channelDescription: 'A channel to categorise your notifications', // (optional) default: undefined.
+    playSound: true, // (optional) default: true
+    soundName: 'default', // (optional) See `soundName` parameter of `localNotification` function
+    importance: Importance.HIGH, // (optional) default: Importance.HIGH. Int value of the Android notification importance
+    vibrate: true, // (optional) default: true. Creates the default vibration pattern if true.
+  },
+  (created) => console.log(`createChannel returned '${created}'`), // (optional) callback returns whether the channel was created, false means it already existed.
+);
 
 PushNotification.configure({
-  // (optional) 토큰이 생성될 때 실행됨(토큰을 서버에 등록할 때 쓸 수 있음)
-  onRegister: async function (token) {
-    let TOKEN;
-    TOKEN = token.token;
-    try {
-      await AsyncStorage.setItem('deviceToken', TOKEN);
-      console.log('TOKEN:', TOKEN);
-      console.log('deviceToke=', await AsyncStorage.getItem('deviceToken'));
-    } catch (e) {
-      console.log('error!', e);
+  // (optional) Called when Token is generated (iOS and Android)
+  onRegister: function (token) {
+    console.log('TOKEN:', token);
+    AsyncStorage.setItem('deviceToken', token.token);
+  },
+
+  // (required) Called when a remote or local notification is opened or received
+  onNotification: function (notification) {
+    console.log('REMOTE NOTIFICATION ==>', notification);
+    if (!notification.userInteraction) {
+      LocalNotification(notification);
     }
   },
 
-  onNotification: function (notification) {
-    console.log('[App] onNotification : notify :', notification);
-    // PushNotification.localNotification({
-    //   title: notification.data.title || ' ',
-    //   message: notification.data.body || ' ',
-    //   userInteraction: true,
-    //   priority: 'high',
-    //   id: 'fcm_fallback_notification_channel',
-    //   authCancel: true,
-    //   importance: 'high',
-    //   visibility: 'public',
-    //   content_available: true,
-    //   soundName: 'default',
-    //   playSound: true,
-    //   foreground: true,
-    // });
-  },
-
-  // onMessage: async function (remoteMessage) {
-  //   console.log('[FCMService] A new FCM message arrived', remoteMessage);
-  //   if (remoteMessage) {
-  //     let notification = null;
-  //     if (Platform.OS === 'ios') {
-  //       notification = remoteMessage.data.notification;
-  //     } else {
-  //       notification = remoteMessage.notification;
-  //     }
-  //     onNotification(notification);
-  //   }
-  // },
+  // Android only: GCM or FCM Sender ID
   permissions: {
     alert: true,
     badge: true,
     sound: true,
   },
-
   senderID: '334463887636',
   popInitialNotification: true,
   requestPermissions: true,
 });
 
+// import PushNotification, {Importance} from 'react-native-push-notification';
+export const LocalNotification = (notification) => {
+  PushNotification.localNotification({
+    channelId: `${notification.channelId}`,
+    autoCancel: false,
+    bigText: `${notification.data.body}`,
+    title: `${notification.data.title}`,
+    userInteraction: false,
+    message: '더 보려면 아래로 늘리세요',
+    vibrate: true,
+    vibration: 300,
+    playSound: true,
+    soundName: 'default',
+    importance: 'high',
+    onlyAlertOnce: true,
+  });
+};
+
 messaging().setBackgroundMessageHandler(async (remoteMessage) => {
   console.log('Message handled in the background!', remoteMessage);
 });
-
-// messaging().setOpenSettingsForNotificationsHandler((remoteMessage) => {
-//   console.log('Message handled in the OpenSettings!', remoteMessage);
-// });
-
-PushNotification.createChannel(
-  {
-    channelId: 'riders', // (required)
-    channelName: '앱 전반', // (required)
-    channelDescription: '앱 실행하는 알림', // (optional) default: undefined.
-    soundName: 'default', // (optional) See `soundName` parameter of `localNotification` function
-    importance: 4, // (optional) default: 4. Int value of the Android notification importance
-    vibrate: true, // (optional) default: true. Creates the default vibration patten if true.
-  },
-  (created) => console.log(`createChannel riders returned '${created}'`), // (optional) callback returns whether the channel was created, false means it already existed.
-);
 
 AppRegistry.registerComponent(appName, () => App);

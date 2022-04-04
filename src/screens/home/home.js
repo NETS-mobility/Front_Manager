@@ -8,8 +8,6 @@ import GetTodayReserveList from '../../api/home/getTodayReserveList';
 import {NoticeBlock} from '../../components/home/noticeBlock';
 import Alarm_test from '../../api/alarm_test';
 import CustomBtn from '../../components/common/button';
-import {LocalNotification} from '../../components/pushNoti/localPush';
-import RemotePushController from '../../components/pushNoti/remotePush';
 
 const Home = ({navigation}) => {
   const styles = StyleSheet.create({
@@ -53,9 +51,6 @@ const Home = ({navigation}) => {
       textAlign: 'center',
     },
   });
-  const handleButtonPress = () => {
-    LocalNotification();
-  };
 
   const [res, setRes] = useState([]);
 
@@ -91,14 +86,14 @@ const Home = ({navigation}) => {
         <CustomBtn
           viewStyle={btnStyles.btnBlue}
           onPress={async () => {
-            const newTest = handleButtonPress();
-            // const res = await Alarm_test();
-            console.log('res', newTest);
+            console.log('clicked=');
+            const res = await Alarm_test();
+            console.log('res', res);
           }}
         />
         <NoticeBlock data={res} navi={navigation} />
         <RestBlock />
-        <RemotePushController />
+        {/* <RemotePushController /> */}
       </ScrollView>
     </CommonLayout>
   );
