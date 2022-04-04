@@ -26,20 +26,20 @@ PushNotification.configure({
 
   onNotification: function (notification) {
     console.log('[App] onNotification : notify :', notification);
-    PushNotification.localNotification({
-      title: notification.data.title || ' ',
-      message: notification.data.body || ' ',
-      userInteraction: true,
-      priority: 'high',
-      id: 0,
-      authCancel: true,
-      importance: 'high',
-      visibility: 'public',
-      content_available: true,
-      soundName: 'default',
-      playSound: true,
-      foreground: true,
-    });
+    // PushNotification.localNotification({
+    //   title: notification.data.title || ' ',
+    //   message: notification.data.body || ' ',
+    //   userInteraction: true,
+    //   priority: 'high',
+    //   id: 'fcm_fallback_notification_channel',
+    //   authCancel: true,
+    //   importance: 'high',
+    //   visibility: 'public',
+    //   content_available: true,
+    //   soundName: 'default',
+    //   playSound: true,
+    //   foreground: true,
+    // });
   },
 
   // onMessage: async function (remoteMessage) {
@@ -59,6 +59,8 @@ PushNotification.configure({
     badge: true,
     sound: true,
   },
+
+  senderID: '334463887636',
   popInitialNotification: true,
   requestPermissions: true,
 });
@@ -71,16 +73,16 @@ messaging().setBackgroundMessageHandler(async (remoteMessage) => {
 //   console.log('Message handled in the OpenSettings!', remoteMessage);
 // });
 
-// PushNotification.createChannel(
-//   {
-//     channelId: 'riders', // (required)
-//     channelName: '앱 전반', // (required)
-//     channelDescription: '앱 실행하는 알림', // (optional) default: undefined.
-//     soundName: 'default', // (optional) See `soundName` parameter of `localNotification` function
-//     importance: 4, // (optional) default: 4. Int value of the Android notification importance
-//     vibrate: true, // (optional) default: true. Creates the default vibration patten if true.
-//   },
-//   (created) => console.log(`createChannel riders returned '${created}'`), // (optional) callback returns whether the channel was created, false means it already existed.
-// );
+PushNotification.createChannel(
+  {
+    channelId: 'riders', // (required)
+    channelName: '앱 전반', // (required)
+    channelDescription: '앱 실행하는 알림', // (optional) default: undefined.
+    soundName: 'default', // (optional) See `soundName` parameter of `localNotification` function
+    importance: 4, // (optional) default: 4. Int value of the Android notification importance
+    vibrate: true, // (optional) default: true. Creates the default vibration patten if true.
+  },
+  (created) => console.log(`createChannel riders returned '${created}'`), // (optional) callback returns whether the channel was created, false means it already existed.
+);
 
 AppRegistry.registerComponent(appName, () => App);

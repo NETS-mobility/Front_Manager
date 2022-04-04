@@ -8,9 +8,14 @@ import GetTodayReserveList from '../../api/home/getTodayReserveList';
 import {NoticeBlock} from '../../components/home/noticeBlock';
 import Alarm_test from '../../api/alarm_test';
 import CustomBtn from '../../components/common/button';
+import {LocalNotification} from '../../components/pushNoti/localPush';
+import RemotePushController from '../../components/pushNoti/remotePush';
 
 const Home = ({navigation}) => {
   const styles = StyleSheet.create({
+    block: {
+      flex: 1,
+    },
     img: {
       position: 'relative',
       width: '100%',
@@ -48,6 +53,9 @@ const Home = ({navigation}) => {
       textAlign: 'center',
     },
   });
+  const handleButtonPress = () => {
+    LocalNotification();
+  };
 
   const [res, setRes] = useState([]);
 
@@ -60,7 +68,7 @@ const Home = ({navigation}) => {
   }, []);
 
   useEffect(() => {
-    console.log('res?', res);
+    console.log('home res?', res);
   }, [res]);
 
   return (
@@ -79,17 +87,18 @@ const Home = ({navigation}) => {
         ]}>
         {`네츠\n모빌리티`}
       </Text>
-      <ScrollView>
+      <ScrollView style={styles.block}>
         <CustomBtn
           viewStyle={btnStyles.btnBlue}
           onPress={async () => {
-            console.log('눌름');
-            const res = await Alarm_test();
-            console.log('res', res);
+            const newTest = handleButtonPress();
+            // const res = await Alarm_test();
+            console.log('res', newTest);
           }}
         />
         <NoticeBlock data={res} navi={navigation} />
         <RestBlock />
+        <RemotePushController />
       </ScrollView>
     </CommonLayout>
   );

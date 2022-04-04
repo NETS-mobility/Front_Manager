@@ -7,6 +7,9 @@ import {NavigationContainer} from '@react-navigation/native';
 import LoginNavigator from './src/navigation/login/login';
 import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification';
+import LocalNotification from './src/components/pushNoti/localPush';
+import RemotePushController from './src/components/pushNoti/remotePush';
+
 axios.defaults.baseURL = 'http://35.197.107.190:5000';
 
 export const RefreshContext = createContext({
@@ -23,22 +26,23 @@ const App = () => {
 
   useEffect(() => {
     mainR();
-    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      PushNotification.localNotification({
-        message: remoteMessage.data.body,
-        title: remoteMessage.data.title,
-        // bigPictureUrl: remoteMessage.notification.android.imageUrl,
-        // smallIcon: remoteMessage.notification.android.imageUrl,
-      });
-      // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-      // PushNotification.invokeApp(remoteMessage);
-    });
-    return unsubscribe;
+    // const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+    //   PushNotification.localNotification({
+    //     message: remoteMessage.data.body,
+    //     title: remoteMessage.data.title,
+    //     bigPictureUrl: remoteMessage.notification.android.imageUrl,
+    //     smallIcon: remoteMessage.notification.android.imageUrl,
+    //   });
+    //   Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    //   PushNotification.invokeApp(remoteMessage);
+    // });
+    // return unsubscribe;
   }, []);
 
   return (
     <RefreshContext.Provider value={value}>
       <View style={styles.block}>
+        <RemotePushController />
         {refresh == null ? (
           <NavigationContainer>
             <LoginNavigator />
@@ -69,7 +73,9 @@ const App = () => {
           //     />
           //   </Stack.Navigator>
           // </NavigationContainer>
-          <BottomTab />
+          <>
+            <BottomTab />
+          </>
         )}
       </View>
     </RefreshContext.Provider>
