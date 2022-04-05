@@ -8,13 +8,14 @@ import AlarmNavigator from '../alarm/alarm';
 import HomeNavigator from '../home/home';
 import {RefreshContext} from '../../../App';
 import LoginNavigator from '../login/login';
+import {navigationRef} from '../RootNavigation';
 
 const Tab = createBottomTabNavigator();
 
 const BottomTab = () => {
   const {refresh, setRefresh} = useContext(RefreshContext);
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       {refresh == null ? (
         <LoginNavigator />
       ) : (

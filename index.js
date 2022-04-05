@@ -7,8 +7,8 @@ import App from './App';
 import {name as appName} from './app.json';
 import AsyncStorage from '@react-native-community/async-storage';
 import messaging from '@react-native-firebase/messaging';
-import app from '@react-native-firebase/app';
 import PushNotification, {Importance} from 'react-native-push-notification';
+import * as RootNavigation from './src/navigation/RootNavigation';
 
 PushNotification.createChannel(
   {
@@ -36,6 +36,9 @@ PushNotification.configure({
     if (!notification.userInteraction) {
       LocalNotification(notification);
     }
+    if (notification.userInteraction) {
+      RootNavigation.navigate('알림', '');
+    }
   },
 
   // Android only: GCM or FCM Sender ID
@@ -49,11 +52,10 @@ PushNotification.configure({
   requestPermissions: true,
 });
 
-// import PushNotification, {Importance} from 'react-native-push-notification';
 export const LocalNotification = (notification) => {
   PushNotification.localNotification({
     channelId: `${notification.channelId}`,
-    autoCancel: false,
+    autoCancel: true,
     bigText: `${notification.data.body}`,
     title: `${notification.data.title}`,
     userInteraction: false,
