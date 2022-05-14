@@ -5,7 +5,7 @@ import {GetToken} from './src/utils/controlToken';
 import axios from 'axios';
 import {NavigationContainer} from '@react-navigation/native';
 import LoginNavigator from './src/navigation/login/login';
-// axios.defaults.baseURL = 'http://10.0.2.2:5000';
+import messaging from '@react-native-firebase/messaging';
 axios.defaults.baseURL = 'http://35.197.107.190:5000';
 
 export const RefreshContext = createContext({
@@ -19,6 +19,10 @@ const App = () => {
   const mainR = async () => {
     await GetToken().then((r) => setRefresh(r));
   };
+
+  messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+    console.log('Message handled in the background!', remoteMessage);
+  });
 
   useEffect(() => {
     mainR();

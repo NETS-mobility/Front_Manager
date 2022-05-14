@@ -1,18 +1,8 @@
 import React from 'react';
 import {StyleSheet, ImageBackground, TouchableOpacity} from 'react-native';
-import {launchImageLibrary} from 'react-native-image-picker';
+import {SelectImg} from '../common/imageSubmit';
 
 const ChangeProfileImage = ({img, setImg, setImgName}) => {
-  const selectImg = () => {
-    launchImageLibrary({mediaType: 'photo'}, (res) => {
-      if (res.didCancel) {
-        return;
-      }
-      setImg(res.assets[0].uri);
-      setImgName(res.assets[0].fileName);
-    });
-  };
-
   const styles = StyleSheet.create({
     imgSection: {
       width: 95,
@@ -23,7 +13,9 @@ const ChangeProfileImage = ({img, setImg, setImgName}) => {
   });
 
   return (
-    <TouchableOpacity activeOpacity={0.5} onPress={selectImg}>
+    <TouchableOpacity
+      activeOpacity={0.5}
+      onPress={() => SelectImg(setImg, setImgName)}>
       {img != '' && (
         <ImageBackground
           source={{uri: img}}

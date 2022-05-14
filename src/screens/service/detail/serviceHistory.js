@@ -52,6 +52,7 @@ const ServiceHistory = ({navigation}) => {
   const [serviceIng, setServiceIng] = useState([]);
   const [serviceComp, setServiceComp] = useState([]);
   const [pickedDate, setPickedDate] = useState('');
+  const [showCalendar, setShowCalendar] = useState(false);
 
   const GetServiceLists = async () => {
     setServiceIng(await GetServiceList(0, pickedDate));
@@ -120,10 +121,15 @@ const ServiceHistory = ({navigation}) => {
           <ServiceSearch
             pickedDate={pickedDate}
             setPickedDate={setPickedDate}
+            showCalendar={showCalendar}
+            setShowCalendar={setShowCalendar}
           />
           <TouchableOpacity
             style={[btnStyles.btnBlue, styles.searchBtn]}
-            onPress={() => GetServiceLists()}>
+            onPress={() => {
+              GetServiceLists();
+              setShowCalendar(false);
+            }}>
             <Text
               style={[typoStyles.fw900, typoStyles.textWhite, typoStyles.fs14]}>
               검색
@@ -138,6 +144,7 @@ const ServiceHistory = ({navigation}) => {
                 const detailId = data.service_id;
                 return (
                   <ServiceHistoryBlock
+                    key={i}
                     data={data}
                     goNext={() =>
                       navigation.navigate(`ServiceDetail`, {detailId})

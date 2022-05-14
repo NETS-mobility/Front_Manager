@@ -7,7 +7,7 @@ const GetServiceList = async (type, date) => {
       {
         jwtToken: await GetToken(),
         listType: type,
-        date: '',
+        date: date,
       },
     );
     return res.data;

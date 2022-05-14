@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import {btnStyles} from '../common/button';
 import typoStyles from '../../assets/fonts/typography';
-import ImageSubmit from '../common/imageSubmit';
+import UploadDocument from '../service/detail/uploadDoc';
 
 const styles = StyleSheet.create({
   detailbox: {
@@ -159,6 +159,7 @@ const ChangeInputWithBtn = ({
 const ChangeBigInput = ({title, text, setText, image, propName}) => {
   const [isfocused, setFocus] = useState(false);
   const [img, setImg] = useState('');
+  const [imgName, setImgName] = useState('');
 
   return (
     <View>
@@ -184,7 +185,15 @@ const ChangeBigInput = ({title, text, setText, image, propName}) => {
           multiline={true}
         />
       </View>
-      {image ? <ImageSubmit img={img} setImg={setImg} /> : <></>}
+      {image ? (
+        <UploadDocument
+          setImg={setImg}
+          imgName={imgName}
+          setImgName={setImgName}
+        />
+      ) : (
+        <></>
+      )}
     </View>
   );
 };

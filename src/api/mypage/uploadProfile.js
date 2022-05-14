@@ -1,6 +1,5 @@
 import {GetToken} from '../../utils/controlToken';
 const UploadProfile = async (img, imgName) => {
-  console.log('Im in uploadProfile');
   const datas = new FormData();
   datas.append('file', {
     filename: imgName,
