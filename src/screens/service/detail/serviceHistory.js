@@ -51,7 +51,8 @@ const ServiceHistory = ({navigation}) => {
   const [ing, setIng] = useState(true);
   const [serviceIng, setServiceIng] = useState([]);
   const [serviceComp, setServiceComp] = useState([]);
-  const [pickedDate, setPickedDate] = useState('NONE');
+  //const [pickedDate, setPickedDate] = useState('NONE');
+  const [pickedDate, setPickedDate] = useState('');
   const [showCalendar, setShowCalendar] = useState(false);
 
   const GetServiceLists = async () => {
