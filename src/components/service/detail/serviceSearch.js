@@ -65,7 +65,7 @@ const ServiceSearch = ({
             typoStyles.fw900,
             typoStyles.textExplainBold,
           ]}>
-          {pickedDate == '' ? '날짜 선택' : pickedDate}
+          {pickedDate == 'NONE' ? '날짜 선택' : pickedDate}
         </Text>
         <CalendarImage />
       </TouchableOpacity>
@@ -73,7 +73,15 @@ const ServiceSearch = ({
         <View style={[styles.calendarBlock]}>
           <Calendar
             onDayPress={(day) => {
-              setPickedDate(day.dateString);
+              if (day.dateString != pickedDate) {
+                setPickedDate(day.dateString);
+              } else {
+                if (pickedDate == 'NONE') {
+                  setPickedDate(day.dateString);
+                } else {
+                  setPickedDate('NONE');
+                }
+              }
             }}
             markedDates={{
               [pickedDate]: {
