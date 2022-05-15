@@ -1,14 +1,18 @@
-import React, {useEffect, useReducer, useState} from 'react';
+import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import typoStyles from '../../../assets/fonts/typography';
 import ServiceBlock from '../serviceBlock';
-import {ServiceTimePicker} from './servicePicker';
-import GetServiceProgress from '../../../api/service/getServiceProgress';
 
-const DetailProgressCircle = ({time, text, circleFill}) => {
+const DetailProgressCircle = ({time, text, circleFill, count}) => {
+  const GetWidth = () => {
+    if (count == 4) return '33%';
+    else if (count == 5) return '25%';
+    else return '20%';
+  };
+
   const styles = StyleSheet.create({
     oneStep: {
-      width: '50%',
+      width: GetWidth(),
       alignItems: 'center',
     },
     bigCircle: {
@@ -70,35 +74,89 @@ const DetailProgressCircle = ({time, text, circleFill}) => {
   );
 };
 
-export const ServiceDetailProgress = ({state, time}) => {
-  console.log('time in progress', time);
-  const GetLineFill = () => {
-    let lineFill1 = '0%';
-    let lineFill2 = '0%';
-    switch (state) {
-      case 1:
-        lineFill1 = '0%';
-        lineFill2 = '0%';
-        break;
-      case 2:
-        lineFill1 = '50%';
-        lineFill2 = '0%';
-        break;
-      case 3:
-      case 4:
-        lineFill1 = '100%';
-        lineFill2 = '0%';
-        break;
-      case 5:
-        lineFill1 = '100%';
-        lineFill2 = '50%';
-        break;
-      case 6:
-        lineFill1 = '100%';
-        lineFill2 = '100%';
-        break;
+const pickCategory = (data, pick) => {
+  const categories = {
+    1: ['차량출발', data?.carDep],
+    2: ['픽업완료', data?.pickup],
+    3: ['병원도착\n완료', data?.arrivalHos],
+    4: ['귀가차량\n병원도착', data?.carReady],
+    5: ['귀가출발', data?.goHome],
+    6: ['서비스종료', data?.complete],
+  };
+  const categoryKey = Object.keys(categories);
+  for (let i = 0; i < categoryKey.length; i++) {
+    if (categoryKey[i] == pick) {
+      return categories[categoryKey[i]];
     }
-    const lineFill = {lineFill1: lineFill1, lineFill2: lineFill2};
+  }
+};
+
+const CaseInfo = (dispatchCase) => {
+  switch (dispatchCase) {
+    case 1: //집-병원
+      return [1, 2, 3, 6];
+    case 2: //병원-집
+      return [1, 4, 5, 6];
+    case 3: //집-집(2시간 이하)
+      return [1, 2, 3, 5, 6];
+    case 4: //집-집(2시간 이상)
+      return [1, 2, 3, 4, 5, 6];
+  }
+};
+
+export const ServiceDetailProgress = ({state, state_time, dispatchCase}) => {
+  const infos = CaseInfo(dispatchCase);
+  const GetLineFill = (num) => {
+    let lineFill = '0%';
+    if (num == 4) {
+      if (dispatchCase == 1) {
+        if (state > 6) {
+          lineFill = '122%';
+        } else if (state > 3) {
+          lineFill = '99%';
+        } else if (state > 2) {
+          lineFill = '66%';
+        } else if (state > 1) {
+          lineFill = '33%';
+        }
+      } else {
+        if (state > 6) {
+          lineFill = '122%';
+        } else if (state > 5) {
+          lineFill = '99%';
+        } else if (state > 4) {
+          lineFill = '66%';
+        } else if (state > 1) {
+          lineFill = '33%';
+        }
+      }
+    } else if (num == 5) {
+      if (state > 6) {
+        lineFill = '100%';
+      } else if (state > 5) {
+        lineFill = '100%';
+      } else if (state > 3) {
+        lineFill = '75%';
+      } else if (state > 2) {
+        lineFill = '50%';
+      } else if (state > 1) {
+        lineFill = '25%';
+      }
+    } else {
+      if (state > 6) {
+        lineFill = '120%';
+      } else if (state > 5) {
+        lineFill = '100%';
+      } else if (state > 4) {
+        lineFill = '80%';
+      } else if (state > 3) {
+        lineFill = '60%';
+      } else if (state > 2) {
+        lineFill = '40%';
+      } else if (state > 1) {
+        lineFill = '20%';
+      }
+    }
     return lineFill;
   };
 
@@ -112,15 +170,7 @@ export const ServiceDetailProgress = ({state, time}) => {
       justifyContent: 'center',
       padding: 0,
     },
-    lineGray1: {
-      position: 'absolute',
-      bottom: '42%',
-      width: '100%',
-      height: 13,
-      backgroundColor: '#dad8e0',
-      zIndex: 2,
-    },
-    lineGray2: {
+    lineGray: {
       position: 'absolute',
       bottom: '52%',
       width: '100%',
@@ -128,16 +178,23 @@ export const ServiceDetailProgress = ({state, time}) => {
       backgroundColor: '#dad8e0',
       zIndex: 2,
     },
-    lineBlue1: {
+    lineBlue4: {
       position: 'absolute',
-      width: GetLineFill().lineFill1,
+      width: GetLineFill(4),
       height: 13,
       backgroundColor: '#19b7cd',
       zIndex: 3,
     },
-    lineBlue2: {
+    lineBlue5: {
       position: 'absolute',
-      width: GetLineFill().lineFill2,
+      width: GetLineFill(5),
+      height: 13,
+      backgroundColor: '#19b7cd',
+      zIndex: 3,
+    },
+    lineBlue6: {
+      position: 'absolute',
+      width: GetLineFill(6),
       height: 13,
       backgroundColor: '#19b7cd',
       zIndex: 3,
@@ -156,45 +213,26 @@ export const ServiceDetailProgress = ({state, time}) => {
         진행 상황
       </Text>
       <View style={styles.steps}>
-        <View style={styles.lineGray1}>
-          <View style={styles.lineBlue1} />
+        <View style={styles.lineGray}>
+          {infos?.length == 4 ? (
+            <View style={styles.lineBlue4} />
+          ) : infos?.length == 5 ? (
+            <View style={styles.lineBlue5} />
+          ) : (
+            <View style={styles.lineBlue6} />
+          )}
         </View>
-        <DetailProgressCircle
-          time={time?.[1]?.substring(11, 16)}
-          text={'차량 출발'}
-          circleFill={state > 0}
-        />
-        <DetailProgressCircle
-          time={time?.[2]?.substring(11, 16)}
-          text={'픽업 완료'}
-          circleFill={state > 1}
-        />
-        <DetailProgressCircle
-          time={time?.[3]?.substring(11, 16)}
-          text={'병원 도착'}
-          circleFill={state > 2}
-        />
-      </View>
-
-      <View style={styles.steps}>
-        <View style={styles.lineGray2}>
-          <View style={styles.lineBlue2} />
-        </View>
-        <DetailProgressCircle
-          time={time?.[4]?.substring(11, 16)}
-          text={'귀가차량\n병원도착'}
-          circleFill={state > 3}
-        />
-        <DetailProgressCircle
-          time={time?.[5]?.substring(11, 16)}
-          text={'귀가 출발'}
-          circleFill={state > 4}
-        />
-        <DetailProgressCircle
-          time={time?.[6]?.substring(11, 16)}
-          text={'서비스 종료'}
-          circleFill={state > 5}
-        />
+        {infos?.map((data, i) => {
+          const result = pickCategory(state_time, data);
+          return (
+            <DetailProgressCircle
+              time={result[1]?.substring(11, 16)}
+              text={result[0]}
+              circleFill={state >= infos[i]}
+              count={infos?.length}
+            />
+          );
+        })}
       </View>
     </ServiceBlock>
   );
