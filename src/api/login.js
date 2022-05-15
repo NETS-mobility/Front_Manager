@@ -1,17 +1,16 @@
 import axios from 'axios';
-import {SetToken} from '../utils/controlToken';
-import AsyncStorage from '@react-native-community/async-storage';
+import {SetToken, GetDeviceToken} from '../utils/controlToken';
 
 const LoginAPI = async (id, pass) => {
-  console.log('this is login api');
+  console.log('deviceToken==', await GetDeviceToken());
   try {
     const res = await axios.post('/manager/login', {
       id: id,
       password: pass,
-      deviceToken: await AsyncStorage.getItem('deviceToken'),
+      device_token: await GetDeviceToken(),
     });
     SetToken(res.data.token);
-    console.log('login res=', res.data);
+    console.log('login api res=', res);
     return res.data;
   } catch (err) {
     console.log('login err=', err);

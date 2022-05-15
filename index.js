@@ -5,7 +5,7 @@
 import {AppRegistry} from 'react-native';
 import App from './App';
 import {name as appName} from './app.json';
-import AsyncStorage from '@react-native-community/async-storage';
+import {SetDeviceToken} from './src/utils/controlToken';
 import messaging from '@react-native-firebase/messaging';
 import PushNotification, {Importance} from 'react-native-push-notification';
 import * as RootNavigation from './src/navigation/RootNavigation';
@@ -25,9 +25,14 @@ PushNotification.createChannel(
 
 PushNotification.configure({
   // (optional) Called when Token is generated (iOS and Android)
-  onRegister: function (token) {
-    console.log('TOKEN:', token);
-    AsyncStorage.setItem('deviceToken', token.token);
+  onRegister: async function (token) {
+    console.log('TOKEN:', token.token);
+    // AsyncStorage.setItem();
+    // AsyncStorage.setItem('deviceToken', token.token);
+    // await AsyncStorage.setItem('deviceToken', token.token, () => {
+    //   console.log('deviceToken은 ' + token.token + '입니다');
+    // });
+    SetDeviceToken(token.token);
   },
 
   // (required) Called when a remote or local notification is opened or received

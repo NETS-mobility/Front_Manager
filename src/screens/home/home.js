@@ -8,6 +8,7 @@ import GetTodayReserveList from '../../api/home/getTodayReserveList';
 import {NoticeBlock} from '../../components/home/noticeBlock';
 import Alarm_test from '../../api/alarm_test';
 import CustomBtn from '../../components/common/button';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const Home = ({navigation}) => {
   const styles = StyleSheet.create({
@@ -83,14 +84,16 @@ const Home = ({navigation}) => {
         {`네츠\n모빌리티`}
       </Text>
       <ScrollView style={styles.block}>
-        <CustomBtn
+        {/* <CustomBtn
           viewStyle={btnStyles.btnBlue}
           onPress={async () => {
-            console.log('clicked=');
-            const res = await Alarm_test();
-            console.log('res', res);
+            // console.log('clicked=');
+            // const res = await Alarm_test();
+            // console.log('res', res);
+            const token = await AsyncStorage.getItem('deviceToken');
+            console.log('토큰', token);
           }}
-        />
+        /> */}
         <NoticeBlock data={res} navi={navigation} />
         <RestBlock />
         {/* <RemotePushController /> */}
