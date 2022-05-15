@@ -152,7 +152,8 @@ const ServiceDetail = ({navigation, route}) => {
         />
         <ServiceDetailProgress
           state={detail?.service_state}
-          time={detail?.service_state_time}
+          state_time={detail?.service_state_time}
+          dispatchCase={detail?.service?.dispatch_case}
         />
 
         {detail?.service_state != 6 && (
