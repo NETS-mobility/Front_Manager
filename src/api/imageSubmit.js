@@ -7,24 +7,15 @@ const ImageSubmitAPI = async (service_id, img, imgName) => {
     type: 'multipart/form-data',
     uri: img,
   });
-  // datas.append('json', JSON.stringify({jwtToken: await GetToken()}));
-
-  try {
-//     const response = await fetch(
-    await fetch(
-      `http://35.197.107.190:5000/manager/service/serviceDetail/${service_id}/submitDoc`,
-      {
-        method: 'POST',
-        body: datas,
-      },
-    )
-      .then((res) => res)
-      .catch((err) => err);
-//     return response;
-    return res;
-  } catch (err) {
-    return err;
-  }
+  const response = await fetch(
+    `http://35.197.107.190:5000/manager/service/serviceDetail/${service_id}/submitDoc`,
+    {
+      method: 'POST',
+      body: datas,
+    },
+  );
+  let result = response;
+  return result;
 };
 
 export default ImageSubmitAPI;
