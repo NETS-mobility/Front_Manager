@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
+import React, {useState, useEffect, useCallback} from 'react';
+import {StyleSheet, Text, View, ScrollView, RefreshControl} from 'react-native';
 import CommonLayout from '../../components/common/layout';
 import typoStyles from '../../assets/fonts/typography';
 import {AlarmBox} from '../../components/alarm/alarmBox';
@@ -10,18 +10,28 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginBottom: 20,
   },
-  background: {
-    backgroundColor: 'white',
-  },
 });
 
 const AlarmScreen = ({navigation}) => {
   const [alarms, setAlarms] = useState([]);
+  const [reload, setReload] = useState(false);
+  const wait = (timeout) => {
+    return new Promise((resolve) => setTimeout(resolve, timeout));
+  };
+
+  const onReload = useCallback(() => {
+    setReload(true);
+    wait(1000).then(() => {
+      fetchData();
+      setReload(false);
+    });
+  }, []);
+
+  const fetchData = async () => {
+    setAlarms(await ViewAlarm());
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      setAlarms(await ViewAlarm());
-    };
     fetchData();
   }, []);
 
@@ -71,6 +81,7 @@ const AlarmScreen = ({navigation}) => {
               }
             })}
         </SafeAreaView>
+
       </ScrollView>
     </CommonLayout>
   );

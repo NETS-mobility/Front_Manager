@@ -1,10 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  RefreshControl,
 } from 'react-native';
 import {btnStyles} from '../../../components/common/button';
 import typoStyles from '../../../assets/fonts/typography';
@@ -54,15 +55,23 @@ const ServiceHistory = ({navigation}) => {
   const [pickedDate, setPickedDate] = useState('NONE');
   const [showCalendar, setShowCalendar] = useState(false);
 
+  const [reload, setReload] = useState(false);
+  const wait = (timeout) => {
+    return new Promise((resolve) => setTimeout(resolve, timeout));
+  };
+
+  const onReload = useCallback(() => {
+    setReload(true);
+    wait(1000).then(() => {
+      GetServiceLists();
+      setReload(false);
+    });
+  }, []);
+
   const GetServiceLists = async () => {
     setServiceIng(await GetServiceList(0, pickedDate));
     setServiceComp(await GetServiceList(1, pickedDate));
   };
-
-  useEffect(() => {
-    console.log('serviceComp=', serviceComp);
-    console.log('serviceIng', serviceIng);
-  }, [serviceComp, serviceIng]);
 
   useEffect(() => {
     GetServiceLists();
@@ -70,7 +79,11 @@ const ServiceHistory = ({navigation}) => {
 
   return (
     <CommonLayout>
-      <ScrollView>
+      <ScrollView
+        contentContainerStyle={styles.scrollView}
+        refreshControl={
+          <RefreshControl refreshing={reload} onRefresh={onReload} />
+        }>
         <View style={styles.block1}>
           <Text
             style={[
@@ -140,7 +153,6 @@ const ServiceHistory = ({navigation}) => {
             </Text>
           </TouchableOpacity>
         </View>
-
         <View>
           {ing
             ? Array.isArray(serviceIng) &&

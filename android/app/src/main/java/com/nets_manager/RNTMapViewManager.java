@@ -1,4 +1,4 @@
-package com.nets;
+package com.nets_manager;
 
 import android.app.Activity;
 import android.widget.LinearLayout;
