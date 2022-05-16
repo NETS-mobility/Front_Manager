@@ -55,11 +55,7 @@ const LoginScreen = ({navigation}) => {
           <LoginBtn
             btnName={'로그인'}
             navWhere={async () => {
-              const res = await LoginAPI({
-                id: email,
-                password: pass,
-                device_token: await AsyncStorage.getItem('deviceToken'),
-              });
+              const res = await LoginAPI(email, pass);
               if (res.success === true) {
                 if (res.checkPhone == '최초 로그인 휴대폰 인증 필요') {
                   navigation.navigate('AuthScreen');

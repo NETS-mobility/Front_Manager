@@ -64,6 +64,10 @@ const ServiceHistory = ({navigation}) => {
     console.log('serviceIng', serviceIng);
   }, [serviceComp, serviceIng]);
 
+  useEffect(() => {
+    GetServiceLists();
+  }, []);
+
   return (
     <CommonLayout>
       <ScrollView>
@@ -147,7 +151,7 @@ const ServiceHistory = ({navigation}) => {
                     key={i}
                     data={data}
                     goNext={() =>
-                      navigation.navigate(`ServiceDetail`, {detailId})
+                      navigation.navigate(`ServiceDetail`, {detailId: detailId})
                     }
                   />
                 );
@@ -159,7 +163,7 @@ const ServiceHistory = ({navigation}) => {
                   <ServiceHistoryBlock
                     data={data}
                     goNext={() =>
-                      navigation.navigate(`ServiceDetail`, {detailId})
+                      navigation.navigate(`ServiceDetail`, {detailId: detailId})
                     }
                   />
                 );

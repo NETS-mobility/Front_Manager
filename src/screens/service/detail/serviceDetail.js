@@ -48,21 +48,18 @@ const ServiceDetail = ({navigation, route}) => {
   });
   const {detailId} = route.params;
   const [detail, setDetail] = useState();
-  const [pro, setPro] = useState();
-  // useEffect(() => {
-  //   GetServiceProgresses();
-  // }, []);
 
-  // useEffect(() => {
-  //   if (pro.service_state > 4) {
-  //   }
-  // }, [pro]);
-
-  console.log(detailId);
+  console.log('detailId in serviceDetail=====', detailId);
 
   const GetDetailInfos = async () => {
+    console.log('getdetailInfos Start');
     setDetail(await GetServiceDetail(detailId));
+    console.log('getdetailInfos end');
   };
+
+  useEffect(() => {
+    console.log('this is init');
+  }, []);
 
   useEffect(() => {
     GetDetailInfos();
@@ -119,28 +116,34 @@ const ServiceDetail = ({navigation, route}) => {
             lng={126.98502302169841}
           />
         </View>
+        {detail?.document_isSubmit ? (
+          <></>
+        ) : (
+          <ServiceBlock>
+            <Text
+              style={[
+                typoStyles.fs14,
+                typoStyles.fw700,
+                typoStyles.textExplainBold,
+                styles.title,
+              ]}>
+              필수 서류가 제출되지 않았습니다.
+            </Text>
+            <CustomBtn
+              viewStyle={[btnStyles.btnPrimary, styles.documentBtn]}
+              textStyle={[
+                typoStyles.fs14,
+                typoStyles.fw700,
+                typoStyles.textWhite,
+              ]}
+              text={'필수 서류 제출'}
+              onPress={() =>
+                navigation.push('RequiredDocument', {detailId: detailId})
+              }
+            />
+          </ServiceBlock>
+        )}
 
-        <ServiceBlock>
-          <Text
-            style={[
-              typoStyles.fs14,
-              typoStyles.fw700,
-              typoStyles.textExplainBold,
-              styles.title,
-            ]}>
-            필수 서류가 제출되지 않았습니다.
-          </Text>
-          <CustomBtn
-            viewStyle={[btnStyles.btnPrimary, styles.documentBtn]}
-            textStyle={[
-              typoStyles.fs14,
-              typoStyles.fw700,
-              typoStyles.textWhite,
-            ]}
-            text={'필수 서류 제출'}
-            onPress={() => navigation.push('RequiredDocument', {detailId})}
-          />
-        </ServiceBlock>
         <CustomerProfile
           name={detail?.service?.user_name}
           addr={detail?.service?.pickup_address}

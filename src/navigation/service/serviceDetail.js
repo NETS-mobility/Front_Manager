@@ -1,7 +1,10 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {ServiceDetail, ServiceHistory} from '../../screens/service';
-import { RequiredDocument } from '../../screens/service';
+import {
+  ServiceDetail,
+  ServiceHistory,
+  RequiredDocument,
+} from '../../screens/service';
 
 const Stack = createNativeStackNavigator();
 

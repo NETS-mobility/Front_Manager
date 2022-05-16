@@ -6,6 +6,7 @@ const GetServiceDetail = async (id) => {
       jwtToken: await GetToken(),
       service_id: id,
     });
+    console.log('res=?', res.data);
     return res.data;
   } catch (err) {
     return err;

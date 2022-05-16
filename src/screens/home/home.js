@@ -1,13 +1,20 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Image, Text, ScrollView} from 'react-native';
+import {View, StyleSheet, Image, Text, ScrollView, Button} from 'react-native';
 import typoStyles from '../../assets/fonts/typography';
+import {btnStyles} from '../../components/common/button';
 import CommonLayout from '../../components/common/layout';
 import RestBlock from '../../components/home/restBlock';
 import GetTodayReserveList from '../../api/home/getTodayReserveList';
 import {NoticeBlock} from '../../components/home/noticeBlock';
+import Alarm_test from '../../api/alarm_test';
+import CustomBtn from '../../components/common/button';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const Home = ({navigation}) => {
   const styles = StyleSheet.create({
+    block: {
+      flex: 1,
+    },
     img: {
       position: 'relative',
       width: '100%',
@@ -57,7 +64,7 @@ const Home = ({navigation}) => {
   }, []);
 
   useEffect(() => {
-    console.log('res?', res);
+    console.log('home res?', res);
   }, [res]);
 
   return (
@@ -76,9 +83,20 @@ const Home = ({navigation}) => {
         ]}>
         {`네츠\n모빌리티`}
       </Text>
-      <ScrollView>
+      <ScrollView style={styles.block}>
+        {/* <CustomBtn
+          viewStyle={btnStyles.btnBlue}
+          onPress={async () => {
+            // console.log('clicked=');
+            // const res = await Alarm_test();
+            // console.log('res', res);
+            const token = await AsyncStorage.getItem('deviceToken');
+            console.log('토큰', token);
+          }}
+        /> */}
         <NoticeBlock data={res} navi={navigation} />
         <RestBlock />
+        {/* <RemotePushController /> */}
       </ScrollView>
     </CommonLayout>
   );

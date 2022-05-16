@@ -18,3 +18,18 @@ export const DeleteToken = async () => {
   await AsyncStorage.clear();
   console.log('delete!');
 };
+
+export const SetDeviceToken = async (token) => {
+  await AsyncStorage.setItem('deviceToken', token, () => {
+    console.log('deviceToken은 ' + token + '입니다');
+  });
+};
+
+export const GetDeviceToken = () => {
+  return new Promise((resolve, reject) => {
+    const res = AsyncStorage.getItem('deviceToken', (err, result) => {
+      return result;
+    });
+    resolve(res);
+  });
+};
