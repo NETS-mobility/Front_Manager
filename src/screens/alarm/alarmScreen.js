@@ -40,24 +40,31 @@ const AlarmScreen = ({navigation}) => {
               if (data?.alarm_title == '예약확정') {
                 return (
                   <AlarmBox
-                    navigation={navigation}
-                    alarmName={'예약 확정 알림'}
-                    alarmExplain={
-                      '새로운 예약이 있습니다. 전달 사항을 전송해주세요.'
+                    key={i}
+                    navigation={() =>
+                      navigation.push('EditNotice', {
+                        detailId: data?.alarm_object_data?.reservation_id,
+                      })
                     }
-                    alarmTime={'2021년 10월 11일 12시 30분'}
-                    btnName={'추가 결제 하기'}
+                    alarmName={data?.alarm_title}
+                    alarmExplain={
+                      '새로운 예약이 확정되었습니다. 전달 사항을 전송해주세요.'
+                    }
+                    alarmTime={data?.alarm_object_data?.reservation_date}
                   />
                 );
               } else {
                 return (
                   <AlarmBox
-                    navigation={navigation}
-                    alarmName={'운행 하루 전 알림'}
-                    alarmExplain={
-                      '서비스 시작 하루 전입니다.\n고객님께 해피콜 해주세요.'
-                    }
-                    alarmTime={'2021년 10월 11일 12시 30분'}
+                    key={i}
+                    navigation={() => {
+                      navigation.navigate('ServiceDetail', {
+                        detailId: data?.alarm_object_data?.reservation_id,
+                      });
+                    }}
+                    alarmName={data?.alarm_title}
+                    alarmExplain={data?.alarm_content}
+                    alarmTime={data?.alarm_object_data?.reservation_date}
                     btnName={'상세보기'}
                   />
                 );

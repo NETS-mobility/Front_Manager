@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   logo: {
-    marginBottom: 10,
+    marginBottom: 20,
   },
   text: {
     backgroundColor: 'white',

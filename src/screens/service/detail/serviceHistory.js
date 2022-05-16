@@ -51,8 +51,7 @@ const ServiceHistory = ({navigation}) => {
   const [ing, setIng] = useState(true);
   const [serviceIng, setServiceIng] = useState([]);
   const [serviceComp, setServiceComp] = useState([]);
-  //const [pickedDate, setPickedDate] = useState('NONE');
-  const [pickedDate, setPickedDate] = useState('');
+  const [pickedDate, setPickedDate] = useState('NONE');
   const [showCalendar, setShowCalendar] = useState(false);
 
   const GetServiceLists = async () => {
@@ -144,7 +143,8 @@ const ServiceHistory = ({navigation}) => {
 
         <View>
           {ing
-            ? serviceIng != [] &&
+            ? Array.isArray(serviceIng) &&
+              serviceIng.length != 0 &&
               serviceIng?.map((data, i) => {
                 const detailId = data.service_id;
                 return (

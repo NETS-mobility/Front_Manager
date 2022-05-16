@@ -58,8 +58,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     paddingHorizontal: 20,
-    height: 400,
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     marginTop: 20,
   },
 });
@@ -134,12 +133,12 @@ const MypageMain = ({navigation}) => {
           </View>
         </BlueBlock>
         <View style={styles.arrowset}>
-          <ArrowBtn contents={'차량 수리/점검 등록'} />
+          {/* <ArrowBtn contents={'차량 수리/점검 등록'} />
           <ArrowBtn contents={'휠체어/리프트 수리/점검 등록'} />
-          <ArrowBtn contents={'휴가 등록'} />
+          <ArrowBtn contents={'휴가 등록'} /> */}
+          <ArrowBtn contents={'비밀번호 변경'} />
           <ArrowBtn contents={'공지사항'} />
           <ArrowBtn contents={'FAQ'} />
-          <ArrowBtn contents={'비밀번호 변경'} />
           <ArrowBtn contents={'약관 상세 확인'} />
         </View>
       </ScrollView>

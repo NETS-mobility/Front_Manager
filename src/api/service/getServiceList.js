@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {GetToken} from '../../utils/controlToken';
 const GetServiceList = async (type, date) => {
+  console.log(type, date);
   try {
     const res = await axios.post(
       `/manager/service/serviceList/${type}/${date}`,
@@ -15,4 +16,5 @@ const GetServiceList = async (type, date) => {
     return err;
   }
 };
+
 export default GetServiceList;

@@ -42,6 +42,7 @@ const AlarmBox = ({
   alarmExplain,
   alarmTime,
   btnName,
+  id,
 }) => {
   return (
     <BlueBlock>
@@ -58,12 +59,9 @@ const AlarmBox = ({
         style={[typoStyles.fs15, typoStyles.fwBold, typoStyles.textExplain]}>
         서비스 일자: {alarmTime}
       </Text>
-      {alarmName == '예약 확정 알림' ? (
+      {alarmName == '예약확정' ? (
         <View style={styles.wrap2btn}>
-          <AlarmBoxBtn
-            navWhere={() => navigation.push('EditNotice')}
-            btnName={'전달 사항 수정'}
-          />
+          <AlarmBoxBtn navWhere={navigation} btnName={'전달 사항 수정'} />
           <AlarmBoxBtn btnName={'전달 사항 전송'} />
         </View>
       ) : (
