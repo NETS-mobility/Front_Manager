@@ -89,20 +89,22 @@ const RequiredDocument = ({navigation, route}) => {
             ]}
             viewStyleDisabled={[btnStyles.btnDisable, styles.submitBtn]}
             text={'제출 완료'}
-//             onPress={async () => {
-//               const res = await ImageSubmitAPI(detailId, img, imgName);
-//               if (res.status == 200) {
-//                 console.log('나는 200이다.');
-//                 // navigation.navigate('ServiceDetail', {detailId});
-//                 // navigation.navigate(`ServiceDetail`, {detailId})
-//               }
-//               console.log('나는 pop하고싶어');
-//               console.log('detailID?', detailId);
-//               // navigation.replace('ServiceDetail', {detailId: detailId}); //되긴하는데, detail에서 뒤로가면 앱꺼짐
-//               navigation.navigate(`ServiceDetail`, {detailId: detailId});
-            onPress={() => {
-              ImageSubmitAPI(detailId, img, imgName);
-              // navigation.navigate('ServiceDetail');
+            //             onPress={async () => {
+            //               const res = await ImageSubmitAPI(detailId, img, imgName);
+            //               if (res.status == 200) {
+            //                 console.log('나는 200이다.');
+            //                 // navigation.navigate('ServiceDetail', {detailId});
+            //                 // navigation.navigate(`ServiceDetail`, {detailId})
+            //               }
+            //               console.log('나는 pop하고싶어');
+            //               console.log('detailID?', detailId);
+            //               // navigation.replace('ServiceDetail', {detailId: detailId}); //되긴하는데, detail에서 뒤로가면 앱꺼짐
+            //               navigation.navigate(`ServiceDetail`, {detailId: detailId});
+            onPress={async () => {
+              const res = await ImageSubmitAPI(detailId, img, imgName);
+              if (res.status == 200) {
+                navigation.push('ServiceDetail', {detailId: detailId});
+              }
             }}
           />
         </View>

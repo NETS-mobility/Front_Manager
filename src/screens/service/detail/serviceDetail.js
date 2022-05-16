@@ -1,12 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Text, ScrollView} from 'react-native';
+import React, {useEffect, useState, useCallback} from 'react';
+import {View, StyleSheet, Text, ScrollView, RefreshControl} from 'react-native';
 import typoStyles from '../../../assets/fonts/typography';
 import CommonLayout from '../../../components/common/layout';
 import {ServiceStatus} from '../../../components/service/detail/serviceHistoryComponent';
-import {
-  ManagerComment,
-  CustomerProfile,
-} from '../../../components/service/detail/serviceInfo';
+import {CustomerProfile} from '../../../components/service/detail/serviceInfo';
 import {ServiceInfo} from '../../../components/service/detail/serviceInfo';
 import ServiceBlock from '../../../components/service/serviceBlock';
 import {ServiceDetailProgress} from '../../../components/service/detail/serviceDetail';
@@ -15,6 +12,10 @@ import CustomBtn, {btnStyles} from '../../../components/common/button';
 import {ServiceTimePicker} from '../../../components/service/detail/servicePicker';
 import RecodeTimeAPI from '../../../api/service/recodeTime';
 import GetServiceDetail from '../../../api/service/getServiceDetail';
+
+const wait = (timeout) => {
+  return new Promise((resolve) => setTimeout(resolve, timeout));
+};
 
 const ServiceDetail = ({navigation, route}) => {
   const styles = StyleSheet.create({
@@ -48,26 +49,20 @@ const ServiceDetail = ({navigation, route}) => {
   });
   const {detailId} = route.params;
   const [detail, setDetail] = useState();
+  const [reload, setReload] = useState(false);
 
-  console.log('detailId in serviceDetail=====', detailId);
+  const onReload = useCallback(() => {
+    setReload(true);
+    wait(2000).then(() => setReload(false));
+  }, []);
 
   const GetDetailInfos = async () => {
-    console.log('getdetailInfos Start');
     setDetail(await GetServiceDetail(detailId));
-    console.log('getdetailInfos end');
   };
-
-  useEffect(() => {
-    console.log('this is init');
-  }, []);
 
   useEffect(() => {
     GetDetailInfos();
   }, [detailId]);
-
-  useEffect(() => {
-    console.log('detail?나는', detail);
-  }, [detail]);
 
   const [pickTime, setPickTime] = useState('');
   const [data, setData] = useState({
@@ -89,13 +84,12 @@ const ServiceDetail = ({navigation, route}) => {
     });
   }, [pickTime]);
 
-  useEffect(() => {
-    console.log('data================', data);
-  }, [data]);
-
   return (
     <CommonLayout>
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={reload} onRefresh={onReload} />
+        }>
         <View style={styles.block1}>
           <Text
             style={[
@@ -106,7 +100,7 @@ const ServiceDetail = ({navigation, route}) => {
             ]}>
             서비스 상세보기
           </Text>
-          <ServiceStatus text={'현재 운행 중'} />
+          <ServiceStatus text={detail?.service?.reservation_state} />
         </View>
         <View style={styles.mapContainer}>
           <MapView
@@ -143,10 +137,13 @@ const ServiceDetail = ({navigation, route}) => {
             />
           </ServiceBlock>
         )}
-
         <CustomerProfile
           name={detail?.service?.user_name}
-          addr={detail?.service?.pickup_address}
+          addr={
+            detail?.service?.dispatch_case == 2
+              ? detail?.service?.hos_address
+              : detail?.service?.pickup_address
+          }
           tel={detail?.service?.user_phone}
           type={2}
         />
@@ -155,7 +152,6 @@ const ServiceDetail = ({navigation, route}) => {
           state_time={detail?.service_state_time}
           dispatchCase={detail?.service?.dispatch_case}
         />
-
         {detail?.service_state != 6 && (
           <ServiceBlock>
             <Text
