@@ -78,7 +78,7 @@ const ChangeInfo = ({navigation}) => {
       phone: res.info.phone,
       certificate: res.certificate,
     });
-    setImg(`http://35.197.107.190:5000/public${res.url_profile}`);
+    setImg(res.url_profile);
   };
 
   useEffect(() => {
