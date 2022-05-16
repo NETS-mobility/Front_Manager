@@ -17,9 +17,15 @@ const RestBlock = () => {
       setDis(true);
     }
   };
+  const initBreakTime = async () => {
+    setViewTime(await GetBreak());
+  };
   useEffect(() => {
     setBreakState();
   }, [dis]);
+  useEffect(() => {
+    initBreakTime();
+  }, []);
   return (
     <View style={styles.restBlock}>
       {dis ? (
@@ -51,7 +57,7 @@ const RestBlock = () => {
               typoStyles.fw900,
               styles.timeText,
             ]}>
-            시작 시간: {viewTime}
+            시작 시간: {viewTime != '' ? viewTime?.substring(0, 5) : ' '}
           </Text>
         </>
       )}
@@ -85,7 +91,7 @@ const RestBlock = () => {
             setDis(false);
             SetBreak(time);
             SetBreakTime(time, 1);
-            setViewTime(time.substring(0, 5));
+            setViewTime(time);
           }}
         />
         <CustomBtn

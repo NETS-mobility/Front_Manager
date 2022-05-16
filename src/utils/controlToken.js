@@ -15,7 +15,7 @@ export const GetToken = () => {
 };
 
 export const DeleteToken = async () => {
-  await AsyncStorage.clear();
+  await AsyncStorage.removeItem('jwtToken');
   console.log('delete!');
 };
 
