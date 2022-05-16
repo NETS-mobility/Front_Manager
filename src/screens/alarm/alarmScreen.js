@@ -37,8 +37,54 @@ const AlarmScreen = ({navigation}) => {
 
   return (
     <CommonLayout>
-      <ScrollView>
-        <SafeAreaView style={styles.background}>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={reload} onRefresh={onReload} />
+        }>
+        <View style={styles.title}>
+          <Text
+            style={[typoStyles.fs32, typoStyles.fwBold, typoStyles.textMain]}>
+            알림
+          </Text>
+        </View>
+        {alarms != undefined &&
+          alarms.map((data, i) => {
+            if (data?.alarm_title == '예약확정') {
+              return (
+                <AlarmBox
+                  key={i}
+                  navigation={() =>
+                    navigation.push('EditNotice', {
+                      detailId: data?.alarm_object_data?.reservation_id,
+                    })
+                  }
+                  alarmName={data?.alarm_title}
+                  alarmExplain={
+                    '새로운 예약이 확정되었습니다. 전달 사항을 전송해주세요.'
+                  }
+                  alarmTime={data?.alarm_object_data?.reservation_date}
+                />
+              );
+            } else {
+              return (
+                <AlarmBox
+                  key={i}
+                  navigation={() => {
+                    navigation.navigate('ServiceDetail', {
+                      detailId: data?.alarm_object_data?.reservation_id,
+                    });
+                  }}
+                  alarmName={data?.alarm_title}
+                  alarmExplain={data?.alarm_content}
+                  alarmTime={data?.alarm_object_data?.reservation_date}
+                  btnName={'상세보기'}
+                />
+              );
+            }
+          })}
+      </ScrollView>
+      {/* <ScrollView> */}
+      {/* <SafeAreaView style={styles.background}>
           <View style={styles.title}>
             <Text
               style={[typoStyles.fs32, typoStyles.fwBold, typoStyles.textMain]}>
@@ -80,9 +126,8 @@ const AlarmScreen = ({navigation}) => {
                 );
               }
             })}
-        </SafeAreaView>
-
-      </ScrollView>
+        </SafeAreaView> */}
+      {/* </ScrollView> */}
     </CommonLayout>
   );
 };
