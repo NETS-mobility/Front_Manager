@@ -239,6 +239,8 @@ apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 android {      
       packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/license.txt'
@@ -247,6 +249,7 @@ android {
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/ASL2.0'
         exclude("META-INF/*.kotlin_module") 
+        exclude 'META-INF/LGPL2.1'
       }          
 }
 apply plugin: "com.google.gms.google-services"
