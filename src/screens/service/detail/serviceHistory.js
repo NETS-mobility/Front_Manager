@@ -155,7 +155,8 @@ const ServiceHistory = ({navigation}) => {
         </View>
         <View>
           {ing
-            ? serviceIng != [] &&
+            ? Array.isArray(serviceIng) &&
+              serviceIng.length != 0 &&
               serviceIng?.map((data, i) => {
                 const detailId = data.service_id;
                 return (

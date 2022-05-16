@@ -5,6 +5,7 @@ import {GetToken} from './src/utils/controlToken';
 import axios from 'axios';
 import {NavigationContainer} from '@react-navigation/native';
 import LoginNavigator from './src/navigation/login/login';
+import EditNotice from './src/screens/service/additional/editNotice';
 axios.defaults.baseURL = 'http://35.197.107.190:5000';
 
 export const RefreshContext = createContext({
@@ -33,6 +34,7 @@ const App = () => {
         ) : (
           <BottomTab />
         )}
+        {/* <EditNotice /> */}
       </View>
     </RefreshContext.Provider>
   );

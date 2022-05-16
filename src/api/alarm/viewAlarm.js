@@ -5,6 +5,7 @@ const ViewAlarm = async () => {
     const res = await axios.post('/manager/view_alarm/alarmList', {
       jwtToken: await GetToken(),
     });
+    console.log(res.data);
     return res.data;
   } catch (err) {
     return err;

@@ -1,14 +1,19 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import CommonLayout from '../../../components/common/layout';
-import {StyleSheet, View, Text, TextInput} from 'react-native';
+import {StyleSheet, View, Text, TextInput, Alert} from 'react-native';
 import typoStyles from '../../../assets/fonts/typography';
 import CustomBtn from '../../../components/common/button';
 import {btnStyles} from '../../../components/common/button';
 import UploadDocument from '../../../components/service/detail/uploadDoc';
+import SetManagerNotice from '../../../api/service/setManagerNotice';
+import SetNoticeFile from '../../../api/service/setNoticeFile';
 
-const EditNotice = () => {
+const EditNotice = ({navigation, route}) => {
   const [img, setImg] = useState('');
   const [imgName, setImgName] = useState('');
+  const [contents, setContents] = useState('');
+  const {detailId} = route.params;
+
   const styles = StyleSheet.create({
     block1: {
       width: '100%',
@@ -64,7 +69,12 @@ const EditNotice = () => {
       </View>
 
       <View style={styles.contents}>
-        <TextInput style={[styles.multiInput]} multiline={true} />
+        <TextInput
+          style={[styles.multiInput]}
+          multiline={true}
+          value={contents}
+          onChangeText={setContents}
+        />
         <View style={styles.submitImgSection}>
           <UploadDocument
             setImg={setImg}
@@ -76,6 +86,19 @@ const EditNotice = () => {
           viewStyle={[btnStyles.btnBlue, styles.submitBtn]}
           textStyle={[typoStyles.textWhite, typoStyles.fs20, typoStyles.fw900]}
           viewStyleDisabled={[btnStyles.btnDisable, styles.submitBtn]}
+          onPress={async () => {
+            const res = await SetManagerNotice(detailId, contents);
+            await SetNoticeFile(img, imgName);
+            if (res.status === 200) {
+              navigation.pop();
+            } else {
+              Alert.alert(
+                '전달사항 전송에 실패하였습니다.',
+                '다시 시도해주세요.',
+                [{text: '확인', style: 'cancel'}],
+              );
+            }
+          }}
           text={'전달 사항 전송'}
         />
       </View>
